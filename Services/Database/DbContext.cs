@@ -6,10 +6,11 @@ namespace library_management.Services.Database ;
 public class LibraryContext: DbContext
 {
     public DbSet<Book> Books { get; set; }
-    
-    public LibraryContext(DbContextOptions<LibraryContext> options) : base(options) { }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlite("Data Source=library_management.db");
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
