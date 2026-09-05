@@ -1,6 +1,6 @@
-﻿namespace library_management.Services.Output;
+﻿namespace library_management.Services.IO;
 
-public static class ConsoleReader
+public static class OutputWriter
 {
     public static void WelcomeMessage()
     {
