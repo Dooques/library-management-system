@@ -2,18 +2,28 @@
 
 namespace library_management.Model;
 
-public class Library
+public interface ILibrary
 {
-    private LibraryContext _books;
+    void AddBook(Book book);
+    List<Book> GetBooks();
+    Book SearchBook(string title);
+    Book BorrowBook(string title);
+    Book ReturnBook(string title);
+}
+
+public class Library: ILibrary
+{
+    private readonly LibraryContext _books;
 
     public Library(LibraryContext books)
     {
         _books = books;
     }
     
-    public void  AddBook(Book book)
+    public void AddBook(Book book)
     {
-        _books.Add(book);
+        _books.Books.Add(book);
+        _books.SaveChanges();
     }
     
     public List<Book> GetBooks() {
@@ -22,15 +32,12 @@ public class Library
 
     public Book SearchBook(string title)
     {
-        var foundBook = _books.Books.FirstOrDefault(b => b.Title == title);
-        return foundBook ?? throw new Exception("Book not found");
+        return FindBookInDb(title);
     }
 
     public Book BorrowBook(string title)
     {
-        var foundBook = _books.Books.FirstOrDefault(b => b.Title == title);
-        
-        if (foundBook == null) throw new Exception("Book not found");
+        var foundBook = FindBookInDb(title); 
         
         foundBook.BorrowBook();
         return foundBook;
@@ -38,11 +45,15 @@ public class Library
 
     public Book ReturnBook(string title)
     {
-        var foundBook = _books.Books.FirstOrDefault(b => b.Title == title);
-        
-        if (foundBook == null) throw new Exception("Book not found");
+        var foundBook = FindBookInDb(title);
         
         foundBook.ReturnBook();
         return foundBook;
+    }
+
+    private Book FindBookInDb(string title)
+    {
+        return _books.Books.FirstOrDefault(b => b.Title == title) ?? 
+               throw new Exception("Book not found");
     }
 }
