@@ -1,12 +1,12 @@
 ﻿[
-  { "title": "Dune", "author": "Frank Herbert" },
-  { "title": "Neuromancer", "author": "William Gibson" },
-  { "title": "Foundation", "author": "Isaac Asimov" },
-  { "title": "The Left Hand of Darkness", "author": "Ursula K. Le Guin" },
-  { "title": "Snow Crash", "author": "Neal Stephenson" },
-  { "title": "The Martian", "author": "Andy Weir" },
-  { "title": "Hyperion", "author": "Dan Simmons" },
-  { "title": "Ender's Game", "author": "Orson Scott Card" },
-  { "title": "The Three-Body Problem", "author": "Liu Cixin" },
-  { "title": "Do Androids Dream of Electric Sheep?", "author": "Philip K. Dick" }
+  { "Title": "Dune", "Author": "Frank Herbert" },
+  { "Title": "Neuromancer", "Author": "William Gibson" },
+  { "Title": "Foundation", "Author": "Isaac Asimov" },
+  { "Title": "The Left Hand of Darkness", "Author": "Ursula K. Le Guin" },
+  { "Title": "Snow Crash", "Author": "Neal Stephenson" },
+  { "Title": "The Martian", "Author": "Andy Weir" },
+  { "Title": "Hyperion", "Author": "Dan Simmons" },
+  { "Title": "Ender's Game", "Author": "Orson Scott Card" },
+  { "Title": "The Three-Body Problem", "Author": "Liu Cixin" },
+  { "Title": "Do Androids Dream of Electric Sheep?", "Author": "Philip K. Dick" }
 ]
