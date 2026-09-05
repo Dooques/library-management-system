@@ -2,7 +2,7 @@
 
 namespace library_management.Model;
 
-public interface ILibrary
+public interface ILibraryRepository
 {
     void AddBook(Book book);
     List<Book> GetBooks();
@@ -11,11 +11,11 @@ public interface ILibrary
     Book ReturnBook(string title);
 }
 
-public class Library: ILibrary
+public class LibraryRepository: ILibraryRepository
 {
     private readonly LibraryContext _books;
 
-    public Library(LibraryContext books)
+    public LibraryRepository(LibraryContext books)
     {
         _books = books;
     }
