@@ -35,4 +35,14 @@ public class Library
         foundBook.BorrowBook();
         return foundBook;
     }
+
+    public Book ReturnBook(string title)
+    {
+        var foundBook = _books.Books.FirstOrDefault(b => b.Title == title);
+        
+        if (foundBook == null) throw new Exception("Book not found");
+        
+        foundBook.ReturnBook();
+        return foundBook;
+    }
 }
