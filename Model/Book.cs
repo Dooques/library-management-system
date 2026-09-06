@@ -5,10 +5,13 @@ namespace library_management.Model;
 public class Book
 {
     public int Id { get; init; }
+    
     [StringLength(100)]
-    public string Title { get; }
+    public string Title { get; init; }
+    
     [StringLength(100)]
-    public string Author { get; }
+    public string Author { get; init; }
+    
     public bool IsBorrowed { get; set; }
 
     public Book(string title, string author)
