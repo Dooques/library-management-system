@@ -4,116 +4,196 @@ namespace library_management.Services.IO;
 
 public static class OutputWriter
 {
-    public static void WelcomeMessage()
+    public static class Welcome
     {
-        Console.Clear();
-        Console.WriteLine(
-            """
-            Welcome to the Library Management System
-                Created by Dooques
-        
-            With our application you can: 
-                Search
-                Add
-                Delete
-                Borrow
-                Return
-            Write your command below:
-            """
+        public static void WelcomeMessage()
+        {
+            Console.Clear();
+            Console.WriteLine(
+                """
+                Welcome to the Library Management System
+                    Created by Dooques
+                """
             );
+        }
+
+        public static void MenuOptions()
+        {
+            Console.WriteLine(
+                """
+
+                With our application you can: 
+                    Search
+                    View
+                    Add
+                    Delete
+                    Borrow
+                    Return
+                Write your command below:
+                """
+            );
+        }
     }
 
-    public static void AddBookBegin()
+    public static class View
     {
-        Console.Clear();
+        public static void ViewBooks(List<Book> books)
+        {
+            Console.WriteLine(
+                """
+                
+                Here are the currently available books:
+                """
+                );
+            foreach (var book in books)
+            {
+                Console.WriteLine("    " + book);
+            }
 
-        Console.WriteLine(
+            Console.ReadLine();
+        }
+    }
+
+    public static class Search
+    {
+        public static string SearchByPrompt()
+        {
+            Console.WriteLine(
+                """
+                
+                Would you like to search by title or artist?
+                """
+            );
+            return InputReader.Read();
+        }
+
+        public static string SearchTerm(string type)
+        {
+            Console.WriteLine(
+                """
+                
+                Enter your search:
+                """
+            );
+            return InputReader.Read();
+        }
+
+        public static void SearchResults(List<Book> books)
+        {
+            Console.WriteLine(
+                """
+                
+                Here is what we found:
+                """
+                );
+            foreach (var book in books)
+            {
+                Console.WriteLine("    " + book);
+            }
+        }
+
+        public static void SearchResultsEmpty()
+        {
+            Console.WriteLine(
+                """
+                
+                No results found.
+                """
+            );
+        } 
+    }
+    
+    public static class Add 
+    { 
+        public static void AddBookBegin() 
+        { 
+            Console.WriteLine(
             """
-            Welcome to the Library Management System
-                Created by Dooques
 
             You have selected "Add Book".
             """
-        );
+            );
+        }
+
+        public static string AddBookTitlePrompt()
+        {
+            Console.WriteLine(
+                """
+
+                Please enter the title of the book you would like to add.
+                """
+            );
+
+            Console.Write("    ");
+            return InputReader.Read();
+        }
+
+        public static string AddBookAuthorPrompt()
+        {
+            Console.WriteLine(
+                """
+
+                Thank you, now enter the author of this book:
+                """
+            );
+
+            Console.Write("    ");
+            return InputReader.Read();
+        }
+
+        public static string AddBookConfirmationPrompt(string bookTitle, string bookAuthor)
+        {
+            Console.WriteLine(
+                $"""
+
+                 You have given the following information:
+                    Title: {bookTitle}
+                    Author: {bookAuthor}
+                         
+                 Is this correct?
+                 Type Yes or No:
+                 """
+            );
+
+            Console.Write("    ");
+            return InputReader.Read();
+        }
+
+        public static void AddBookConfirmed(string bookTitle, string bookAuthor)
+        {
+            Console.WriteLine(
+                $"""
+
+                 {bookTitle} by {bookAuthor} has been added to the library.
+                 """
+            );
+        }
+
+        public static string AddBookContinuePrompt()
+        {
+            Console.WriteLine(
+                """
+
+                Would you like to retry entering the book information?
+                """
+            );
+
+            Console.Write("    ");
+            return InputReader.Read();
+        }
+
+        public static void AddBookReturn()
+        {
+            Console.WriteLine(
+                """
+
+                Returning to the main menu...
+
+                Press Enter to continue
+                """
+            );
+            Console.ReadLine(); 
+        } 
     }
 
-    public static string AddBookTitlePrompt()
-    {
-        Console.WriteLine(
-            """
-
-            Please enter the title of the book you would like to add.
-            """
-        );
-
-        Console.Write("    ");
-        return InputReader.ReadInput();
-    }
-
-    public static string AddBookAuthorPrompt()
-    {
-        Console.WriteLine(
-            """
-
-            Thank you, now enter the author of this book:
-            """
-        );
-
-        Console.Write("    ");
-        return InputReader.ReadInput();
-    }
-
-    public static string AddBookConfirmationPrompt(string bookTitle, string bookAuthor)
-    {
-        Console.WriteLine(
-            $"""
-
-             You have given the following information:
-                Title: {bookTitle}
-                Author: {bookAuthor}
-                     
-             Is this correct?
-             Type Yes or No:
-             """
-        );
-
-        Console.Write("    ");
-        return InputReader.ReadInput();
-    }
-
-    public static void AddBookConfirmed(string bookTitle, string bookAuthor)
-    {
-        Console.WriteLine(
-            $"""
-
-             {bookTitle} by {bookAuthor} has been added to the library.
-             """
-        );
-    }
-
-    public static string AddBookContinuePrompt()
-    {
-        Console.WriteLine(
-            """
-
-            Would you like to retry entering the book information?
-            """
-        );
-
-        Console.Write("    ");
-        return InputReader.ReadInput();
-    }
-
-    public static void AddBookReturn()
-    {
-        Console.WriteLine(
-            """
-
-            Returning to the main menu...
-            
-            Press Enter to continue
-            """
-        );
-        Console.ReadLine();
-    }
 }
