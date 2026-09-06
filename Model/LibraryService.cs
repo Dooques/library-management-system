@@ -73,6 +73,15 @@ public class LibraryService(LibraryRepository libraryRepo)
         OutputWriter.Add.AddBookReturn();
     }
 
+    public static class DeleteBook
+    {
+        
+    }
+    
+    public static class BorrowBook { }
+    
+    public static class ReturnBook {}
+    
     private static bool CheckForExit(string text)
     {
         return text.Contains("exit", StringComparison.CurrentCultureIgnoreCase);
