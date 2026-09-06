@@ -334,9 +334,7 @@ public static class OutputWriter
         Console.WriteLine(
             """
 
-            Returning to the main menu...
-
-            Press Enter to continue
+            Press Enter to return to the menu:
             """
         );
         Console.ReadLine(); 
