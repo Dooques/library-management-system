@@ -115,8 +115,25 @@ public class LibraryService(ILibraryRepository libraryRepo)
         
         OutputWriter.ReturnToMenu();
     }
-    
-    public static class ReturnBook {}
+
+    public void ReturnBook()
+    {
+        OutputWriter.Welcome.WelcomeMessage();
+        var title = OutputWriter.Return.ReturnBookPrompt();
+        if (CheckForExit(title)) return;
+        
+        var book = LibraryRepo.SearchBook(title);
+        
+        var confirmed = OutputWriter.Return.ReturnBookConfirmationPrompt(book.Title, book.Author);
+        if (CheckForExit(title)) return;
+        
+        if (confirmed.Contains("yes", StringComparison.OrdinalIgnoreCase))
+            OutputWriter.Return.ReturnBookConfirmed(title, book.Author);
+        else
+            OutputWriter.NotConfirmed();
+        
+        OutputWriter.ReturnToMenu();
+    }
     
     private static bool CheckForExit(string text)
     {
