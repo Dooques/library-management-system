@@ -25,9 +25,16 @@ public class LibraryService(ILibraryRepository libraryRepo)
         OutputWriter.Welcome.WelcomeMessage();
         var type = OutputWriter.Search.SearchByPrompt();
         if (CheckForExit(type)) return;
-        var searchTerm =  OutputWriter.Search.SearchTerm(type);
+        
+        if (!type.Contains("title", StringComparison.OrdinalIgnoreCase)
+            && !type.Contains("author", StringComparison.OrdinalIgnoreCase))
+            throw new Exception("Unknown search type: " + type);
+        
+        var searchTerm =  OutputWriter.Search.SearchTerm();
         if (CheckForExit(searchTerm)) return;
+        
         var books = LibraryRepo.GetBooks();
+        
         var searchResult = type switch
         {
             "title" => books.FindAll(b => b.Title.Contains(searchTerm)),
