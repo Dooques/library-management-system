@@ -17,6 +17,7 @@ public class LibraryService(ILibraryRepository libraryRepo)
         OutputWriter.Welcome.WelcomeMessage();
         var books = LibraryRepo.GetBooks();
         OutputWriter.View.ViewBooks(books);
+        OutputWriter.ReturnToMenu();
     }
 
     public void SearchBooks()
@@ -39,8 +40,9 @@ public class LibraryService(ILibraryRepository libraryRepo)
             OutputWriter.Search.SearchResults(searchResult);
         } 
         else OutputWriter.Search.SearchResultsEmpty();
-
         Console.ReadLine();
+        
+        OutputWriter.ReturnToMenu();
     }
     
     public void AddBook()
@@ -61,6 +63,7 @@ public class LibraryService(ILibraryRepository libraryRepo)
             {
                 OutputWriter.Add.AddBookConfirmed(title, author);
                 LibraryRepo.AddBook(new Book(title, author));
+                adding = false;
             }
             else
             {
@@ -68,9 +71,8 @@ public class LibraryService(ILibraryRepository libraryRepo)
                 if (CheckForExit(title)) return;
                 if (string.Equals(confirmation, "yes", StringComparison.OrdinalIgnoreCase)) continue;
             }
-            adding = false;
         }
-        OutputWriter.Add.AddBookReturn();
+        OutputWriter.ReturnToMenu();
     }
 
     public void DeleteBook()
@@ -94,7 +96,7 @@ public class LibraryService(ILibraryRepository libraryRepo)
             }
             else
             {
-                OutputWriter.Delete.DeleteBookNotConfirmed();
+                OutputWriter.NotConfirmed();
             }
         }
     }
