@@ -160,7 +160,7 @@ public class Library(ILibraryService libraryService)
         
         if (confirmed.Contains("yes", StringComparison.OrdinalIgnoreCase))
         {
-            OutputWriter.Return.ReturnBookConfirmed(title, book.Author);
+            OutputWriter.Return.ReturnBookConfirmed(book.Title, book.Author);
             _libraryService.ReturnBook(book);
         }
         else
