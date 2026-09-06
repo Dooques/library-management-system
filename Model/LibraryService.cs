@@ -2,9 +2,9 @@
 
 namespace library_management.Model;
 
-public class LibraryService(LibraryRepository libraryRepo)
+public class LibraryService(ILibraryRepository libraryRepo)
 {
-    private LibraryRepository LibraryRepo { get; set; } = libraryRepo;
+    private ILibraryRepository LibraryRepo { get; set; } = libraryRepo;
 
     public static void WelcomeMessage()
     {
@@ -46,8 +46,8 @@ public class LibraryService(LibraryRepository libraryRepo)
     public void AddBook()
     {
         OutputWriter.Add.AddBookBegin();
-        var enteringData = true;
-        while (enteringData)
+        var adding = true;
+        while (adding)
         {
             var title = OutputWriter.Add.AddBookTitlePrompt();
             if (CheckForExit(title)) return;
@@ -68,17 +68,41 @@ public class LibraryService(LibraryRepository libraryRepo)
                 if (CheckForExit(title)) return;
                 if (string.Equals(confirmation, "yes", StringComparison.OrdinalIgnoreCase)) continue;
             }
-            enteringData = false;
+            adding = false;
         }
         OutputWriter.Add.AddBookReturn();
     }
 
-    public static class DeleteBook
+    public void DeleteBook()
+    {
+        OutputWriter.Welcome.WelcomeMessage();
+        var deleting = true;
+        while (deleting)
+        {
+            var title = OutputWriter.Delete.DeleteTitlePrompt();
+            if (CheckForExit(title)) return;
+            
+            var book = LibraryRepo.SearchBook(title);
+            var confirmed = OutputWriter.Delete.DeleteTitleConfirmationPrompt(book.Title, book.Author);
+            if (CheckForExit(title)) return;
+            
+            if (confirmed.Contains("yes", StringComparison.OrdinalIgnoreCase))
+            {
+                OutputWriter.Delete.DeleteBookConfirmed(book.Title, book.Author);
+                Console.ReadLine();
+                deleting = false;
+            }
+            else
+            {
+                OutputWriter.Delete.DeleteBookNotConfirmed();
+            }
+        }
+    }
+
+    public static class BorrowBook
     {
         
     }
-    
-    public static class BorrowBook { }
     
     public static class ReturnBook {}
     
