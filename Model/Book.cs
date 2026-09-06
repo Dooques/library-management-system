@@ -27,6 +27,7 @@ public class Book
 
     public override string ToString()
     {
-        return $"{Title} by {Author} ({IsBorrowed})";
+        var available = IsBorrowed ? "Unavailable": "Available";
+        return $"{Title} by {Author} ({available})";
     }
 }
