@@ -10,7 +10,7 @@ public class LibraryServiceTesting
     private Mock<ILibraryRepository> _mockLibraryRepo;
     private LibraryService _libraryService;
 
-    private List<Book> _booklist =
+    private readonly List<Book> _booklist =
     [
         new Book("Dune", "Frank Herbert"),
         new Book("Neuromancer", "William Gibson"),
@@ -26,13 +26,15 @@ public class LibraryServiceTesting
     }
 
     [Test]
-    public void ViewBooks_ValidBooks_ShouldReturnAllBooks()
+    public void GetBooks_ValidBooks_ShouldReturnAllBooks()
     {
-        Trace.Listeners.Add(new ConsoleTraceListener());
         _mockLibraryRepo.Setup(x => 
             x.GetBooks()).Returns(_booklist);
-        _libraryService.ViewBooks();
+        var books = _libraryService.GetBooks();
         
-        Assert.That();
+        Assert.That(books.Count, Is.EqualTo(_booklist.Count));
     }
+    
+    
+    
 }
