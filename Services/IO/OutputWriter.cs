@@ -170,6 +170,20 @@ public static class OutputWriter
             );
         }
 
+        public static string BookAlreadyInLibrary(string bookTitle, string bookAuthor)
+        {
+            Console.WriteLine(
+                $"""
+                
+                The book {bookTitle} by {bookAuthor} is already in the library, would you like to add something else?
+                Type Yes or No:
+                """
+                );
+            
+            Console.Write("    ");
+            return InputReader.Read();
+        }
+
         public static string AddBookContinuePrompt()
         {
             Console.WriteLine(
