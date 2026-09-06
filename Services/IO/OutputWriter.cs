@@ -196,4 +196,47 @@ public static class OutputWriter
         } 
     }
 
+    public static class Delete
+    {
+        public static string DeleteTitlePrompt()
+        {
+            Console.WriteLine(
+                """
+                
+                Enter the title of the book to delete:
+                """
+                );
+            
+            Console.Write("    ");
+            return InputReader.Read();
+        }
+
+        public static string DeleteTitleConfirmationPrompt(string title, string author)
+        {
+            Console.WriteLine(
+                $"""
+                
+                Are you sure you want to delete {title} by {author}?
+                """
+                );
+            
+            Console.Write("    ");
+            return InputReader.Read();
+        }
+
+        public static void DeleteBookConfirmed(string title, string author)
+        {
+            Console.WriteLine(
+                $"""
+                
+                {title}  by {author} has been deleted.
+                """
+            );
+        }
+    }
+    
+    public static class Borrow { }
+    
+    public static class Return {}
+
 }
