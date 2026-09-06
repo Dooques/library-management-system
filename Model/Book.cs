@@ -1,10 +1,14 @@
-﻿namespace library_management.Model;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace library_management.Model;
 
 public class Book
 {
-    public int Id { get; set; }
-    public string Title { get; set; }
-    public string Author { get; set; }
+    public int Id { get; init; }
+    [StringLength(100)]
+    public string Title { get; }
+    [StringLength(100)]
+    public string Author { get; }
     public bool IsBorrowed { get; set; }
 
     public Book(string title, string author)
