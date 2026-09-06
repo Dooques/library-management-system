@@ -139,6 +139,9 @@ public class LibraryService(ILibraryRepository libraryRepo)
     
     private static bool CheckForExit(string text)
     {
-        return text.Contains("exit", StringComparison.CurrentCultureIgnoreCase);
+        return 
+            text.Contains("exit", StringComparison.OrdinalIgnoreCase) 
+            || 
+            text.Contains("quit", StringComparison.OrdinalIgnoreCase);
     }
 }
