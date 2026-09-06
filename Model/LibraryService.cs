@@ -37,17 +37,16 @@ public class LibraryService(ILibraryRepository libraryRepo)
         
         var searchResult = type switch
         {
-            "title" => books.FindAll(b => b.Title.Contains(searchTerm)),
-            "author" => books.FindAll(b => b.Author.Contains(searchTerm)),
-            _ => throw new Exception("Unknown search type: " + type)
+            "title" => books.FindAll(b => b.Title.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)),
+            "author" => books.FindAll(b => b.Author.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)),
+            _ => throw new ArgumentOutOfRangeException()
         };
         
-        if (searchResult.Any())
+        if (searchResult.Count != 0)
         {
             OutputWriter.Search.SearchResults(searchResult);
         } 
         else OutputWriter.Search.SearchResultsEmpty();
-        Console.ReadLine();
         
         OutputWriter.ReturnToMenu();
     }
