@@ -2,14 +2,9 @@
 
 namespace library_management.Model;
 
-public class LibraryService
+public class LibraryService(LibraryRepository libraryRepo)
 {
-    private LibraryRepository LibraryRepo { get; set; }
-
-    public LibraryService(LibraryRepository libraryRepo)
-    {
-        LibraryRepo = libraryRepo;
-    }
+    private LibraryRepository LibraryRepo { get; set; } = libraryRepo;
 
     public static void WelcomeMessage()
     {
