@@ -27,48 +27,52 @@ catch (Exception e)
 var libraryRepo = new LibraryRepository(dbContext);
 var libraryService = new LibraryService(libraryRepo);
 
-var running = true;
-while (running)
-{ 
-    LibraryService.WelcomeMessage();
+    var running = true;
+    while (running)
+    { 
+        LibraryService.WelcomeMessage();
     
-    Console.Write("    ");
-    var userInput = InputReader.Read();
+        Console.Write("    ");
+        var userInput = InputReader.Read();
     
-    if  (userInput == "exit")
-    {
-        running = false;
+        try
+        {
+        if  (userInput == "exit")
+        {
+            running = false;
+        }
+        if (userInput.Contains("add", StringComparison.CurrentCultureIgnoreCase))
+        {
+            libraryService.AddBook();
+        }
+        
+        if (userInput.Contains("view", StringComparison.CurrentCultureIgnoreCase))
+        {
+            libraryService.ViewBooks();
+        }
+        
+        if (userInput.Contains("search", StringComparison.CurrentCultureIgnoreCase))
+        {
+            libraryService.SearchBooks();
+        }
+        
+        if (userInput.Contains("delete", StringComparison.CurrentCultureIgnoreCase))
+        {
+            libraryService.DeleteBook();
+        }
+        
+        if (userInput.Contains("borrow", StringComparison.CurrentCultureIgnoreCase))
+        {
+            libraryService.BorrowBook();
+        }
+        
+        if (userInput.Contains("return", StringComparison.CurrentCultureIgnoreCase))
+        {
+            libraryService.ReturnBook();
+        } 
     }
-
-    if (userInput.Contains("add", StringComparison.CurrentCultureIgnoreCase))
+    catch (Exception e)
     {
-        libraryService.AddBook();
-    }
-    
-    if (userInput.Contains("view", StringComparison.CurrentCultureIgnoreCase))
-    {
-        libraryService.ViewBooks();
-    }
-    
-    if (userInput.Contains("search", StringComparison.CurrentCultureIgnoreCase))
-    {
-        libraryService.SearchBooks();
-    }
-    
-    if (userInput.Contains("delete", StringComparison.CurrentCultureIgnoreCase))
-    {
-        libraryService.DeleteBook();
-    }
-    
-    if (userInput.Contains("borrow", StringComparison.CurrentCultureIgnoreCase))
-    {
-        Console.WriteLine("borrow");
-        throw new NotImplementedException();
-    }
-    
-    if (userInput.Contains("return", StringComparison.CurrentCultureIgnoreCase))
-    {
-        Console.WriteLine("return");
-        throw new NotImplementedException();
+        OutputWriter.ErrorResponses.HandleError(e);
     }
 }
