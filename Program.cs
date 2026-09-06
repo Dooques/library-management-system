@@ -57,8 +57,7 @@ while (running)
     
     if (userInput.Contains("delete", StringComparison.CurrentCultureIgnoreCase))
     {
-        Console.WriteLine("Delete");
-        throw new NotImplementedException();
+        libraryService.DeleteBook();
     }
     
     if (userInput.Contains("borrow", StringComparison.CurrentCultureIgnoreCase))
