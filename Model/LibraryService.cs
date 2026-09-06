@@ -99,9 +99,21 @@ public class LibraryService(ILibraryRepository libraryRepo)
         }
     }
 
-    public static class BorrowBook
+    public void BorrowBook()
     {
+        OutputWriter.Welcome.WelcomeMessage();
+        var title = OutputWriter.Borrow.BorrowBookPrompt();
+        if (CheckForExit(title)) return;
         
+        var book = LibraryRepo.SearchBook(title);
+        var confirmed = OutputWriter.Borrow.BorrowBookConfirmationPrompt(book.Title, book.Author);
+        if (CheckForExit(title)) return;
+        if (confirmed.Contains("yes", StringComparison.OrdinalIgnoreCase)) 
+            OutputWriter.Borrow.BorrowBookConfirmed(title, book.Author);
+        else 
+            OutputWriter.NotConfirmed();
+        
+        OutputWriter.ReturnToMenu();
     }
     
     public static class ReturnBook {}
