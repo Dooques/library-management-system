@@ -23,8 +23,25 @@ public class BookTests
     }
 
     [Test]
-    public void Test1()
+    public void BorrowBook_BorrowedFieldShouldBecomeTrue()
     {
-        Assert.Pass();
+        
+        _testBook.BorrowBook();
+        Assert.That(_testBook.IsBorrowed, Is.True);
+    }
+    
+    [Test]
+    public void ReturnBook_BorrowedFieldShouldBecomeFalse()
+    {
+        _testBook.BorrowBook();
+        _testBook.ReturnBook();
+        Assert.That(_testBook.IsBorrowed, Is.False);
+    }
+    
+    [Test]
+    public void ToString_ShouldReturnBookTitleAuthorAndAvailability()
+    {
+        Assert.That(_testBook.ToString(), 
+            Is.EqualTo("test by john test (Available)"));
     }
 }
