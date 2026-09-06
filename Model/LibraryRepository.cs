@@ -11,23 +11,16 @@ public interface ILibraryRepository
     Book ReturnBook(string title);
 }
 
-public class LibraryRepository: ILibraryRepository
+public class LibraryRepository(LibraryContext books) : ILibraryRepository
 {
-    private readonly LibraryContext _books;
-
-    public LibraryRepository(LibraryContext books)
-    {
-        _books = books;
-    }
-    
     public void AddBook(Book book)
     {
-        _books.Books.Add(book);
-        _books.SaveChanges();
+        books.Books.Add(book);
+        books.SaveChanges();
     }
     
     public List<Book> GetBooks() {
-        return _books.Books.ToList();
+        return books.Books.ToList();
     }
 
     public Book SearchBook(string title)
@@ -53,7 +46,7 @@ public class LibraryRepository: ILibraryRepository
 
     private Book FindBookInDb(string title)
     {
-        return _books.Books.FirstOrDefault(b => b.Title == title) ?? 
+        return books.Books.FirstOrDefault(b => b.Title == title) ?? 
                throw new Exception("Book not found");
     }
 }
