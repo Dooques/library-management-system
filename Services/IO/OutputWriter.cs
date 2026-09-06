@@ -233,10 +233,94 @@ public static class OutputWriter
                 """
             );
         }
+
+        public static void DeleteBookNotConfirmed()
+        {
+            Console.WriteLine(
+                """
+                
+                Let's start over...
+                """
+                );
+        }
     }
-    
-    public static class Borrow { }
-    
-    public static class Return {}
+
+    public static class Borrow
+    {
+        public static string BorrowBookPrompt()
+        {
+            Console.WriteLine(
+                """
+                
+                What is the title of the book are you borrowing?
+                """
+            );
+            
+            Console.Write("    ");
+            return InputReader.Read();
+        }
+
+        public static string BorrowBookConfirmationPrompt(string bookTitle, string bookAuthor)
+        {
+            Console.WriteLine(
+                $"""
+                
+                Are you trying to borrow {bookTitle} by {bookAuthor}?
+                """
+                );
+            
+            Console.Write("    ");
+            return InputReader.Read();
+        }
+
+        public static void BorrowBookConfirmed(string bookTitle, string bookAuthor)
+        {
+            Console.WriteLine(
+                $"""
+                
+                {bookTitle} by {bookAuthor} has been borrowed.
+                """
+                );
+        }
+    }
+
+    public static class Return
+    {
+        public static string BorrowBookPrompt()
+        {
+            Console.WriteLine(
+                """
+
+                What is the title of the book you are returning?
+                """
+            );
+            
+            Console.Write("    ");
+            return InputReader.Read();
+        }
+
+        public static string BorrowBookConfirmationPrompt(string bookTitle, string bookAuthor)
+        {
+            Console.WriteLine(
+                $"""
+
+                 Are you trying to return {bookTitle} by {bookAuthor}?
+                 """
+            );
+            
+            Console.Write("    ");
+            return InputReader.Read();
+        }
+
+        public static void BorrowBookConfirmed(string bookTitle, string bookAuthor)
+        {
+            Console.WriteLine(
+                $"""
+
+                 {bookTitle} by {bookAuthor} has been borrowed.
+                 """
+            );
+        }
+    }
 
 }
