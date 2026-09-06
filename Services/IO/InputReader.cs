@@ -2,7 +2,7 @@
 
 public static class InputReader
 {
-    public static string ReadInput()
+    public static string Read()
     {
         return Console.ReadLine() ?? throw new Exception("Input was null");
     }
