@@ -13,6 +13,7 @@ public static class OutputWriter
                 """
                 Welcome to the Library Management System
                     Created by Dooques
+                Type 'exit' or 'quit' to close the application at any time.
                 """
             );
         }
@@ -182,18 +183,6 @@ public static class OutputWriter
             return InputReader.Read();
         }
 
-        public static void AddBookReturn()
-        {
-            Console.WriteLine(
-                """
-
-                Returning to the main menu...
-
-                Press Enter to continue
-                """
-            );
-            Console.ReadLine(); 
-        } 
     }
 
     public static class Delete
@@ -234,15 +223,6 @@ public static class OutputWriter
             );
         }
 
-        public static void DeleteBookNotConfirmed()
-        {
-            Console.WriteLine(
-                """
-                
-                Let's start over...
-                """
-                );
-        }
     }
 
     public static class Borrow
@@ -286,7 +266,7 @@ public static class OutputWriter
 
     public static class Return
     {
-        public static string BorrowBookPrompt()
+        public static string ReturnBookPrompt()
         {
             Console.WriteLine(
                 """
@@ -299,7 +279,7 @@ public static class OutputWriter
             return InputReader.Read();
         }
 
-        public static string BorrowBookConfirmationPrompt(string bookTitle, string bookAuthor)
+        public static string ReturnBookConfirmationPrompt(string bookTitle, string bookAuthor)
         {
             Console.WriteLine(
                 $"""
@@ -312,7 +292,7 @@ public static class OutputWriter
             return InputReader.Read();
         }
 
-        public static void BorrowBookConfirmed(string bookTitle, string bookAuthor)
+        public static void ReturnBookConfirmed(string bookTitle, string bookAuthor)
         {
             Console.WriteLine(
                 $"""
@@ -321,6 +301,30 @@ public static class OutputWriter
                  """
             );
         }
+        
+        
     }
 
+    public static void NotConfirmed()
+    {
+        Console.WriteLine(
+            """
+
+            Let's start over...
+            """
+        );
+    }
+    
+    public static void ReturnToMenu()
+    {
+        Console.WriteLine(
+            """
+
+            Returning to the main menu...
+
+            Press Enter to continue
+            """
+        );
+        Console.ReadLine(); 
+    } 
 }
