@@ -84,7 +84,6 @@ public class LibraryService(ILibraryRepository libraryRepo)
             {
                 OutputWriter.Add.AddBookContinuePrompt();
                 if (CheckForExit(title)) return;
-                if (string.Equals(confirmation, "yes", StringComparison.OrdinalIgnoreCase)) continue;
             }
         }
         OutputWriter.ReturnToMenu();
