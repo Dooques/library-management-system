@@ -15,21 +15,19 @@ public interface ILibraryService
 
 public class LibraryService(ILibraryRepository libraryRepository): ILibraryService
 {
-    private ILibraryRepository _libraryRepository = libraryRepository;
-
     public List<Book> GetBooks()
     {
-        return _libraryRepository.GetBooks();
+        return libraryRepository.GetBooks();
     }
 
     public Book? SearchBook(string title)
     {
-        return _libraryRepository.SearchBook(title);
+        return libraryRepository.SearchBook(title);
     }
     
     public List<Book> SearchBooks(string type, string searchTerm)
     {
-        var books = _libraryRepository.GetBooks();
+        var books = libraryRepository.GetBooks();
         
         var searchResult = type switch
         {
@@ -45,12 +43,12 @@ public class LibraryService(ILibraryRepository libraryRepository): ILibraryServi
 
     public Book AddBook(string title, string author)
     {
-        return _libraryRepository.AddBook(new Book(title, author));
+        return libraryRepository.AddBook(new Book(title, author));
     }
 
     public Book DeleteBook(Book book)
     {
-        _libraryRepository.DeleteBook(book);
+        libraryRepository.DeleteBook(book);
         return book;
     }
 
@@ -58,14 +56,14 @@ public class LibraryService(ILibraryRepository libraryRepository): ILibraryServi
     {
         if (book.IsBorrowed) throw new Exception("Book already borrowed");
         
-        _libraryRepository.BorrowBook(book.Title);
+        libraryRepository.BorrowBook(book.Title);
         return book;
     }
 
     public Book ReturnBook(Book book)
     {
         if (!book.IsBorrowed) throw new Exception("Book not borrowed");
-        _libraryRepository.ReturnBook(book.Title);
+        libraryRepository.ReturnBook(book.Title);
         return book;
     }
 }
