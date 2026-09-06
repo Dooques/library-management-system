@@ -10,29 +10,76 @@ public class LibraryService
     {
         LibraryRepo = libraryRepo;
     }
+
+    public static void WelcomeMessage()
+    {
+        OutputWriter.Welcome.WelcomeMessage();
+        OutputWriter.Welcome.MenuOptions();
+    }
+
+    public void ViewBooks()
+    {
+        OutputWriter.Welcome.WelcomeMessage();
+        var books = LibraryRepo.GetBooks();
+        OutputWriter.View.ViewBooks(books);
+    }
+
+    public void SearchBooks()
+    {
+        OutputWriter.Welcome.WelcomeMessage();
+        var type = OutputWriter.Search.SearchByPrompt();
+        if (CheckForExit(type)) return;
+        var searchTerm =  OutputWriter.Search.SearchTerm(type);
+        if (CheckForExit(searchTerm)) return;
+        var books = LibraryRepo.GetBooks();
+        var searchResult = type switch
+        {
+            "title" => books.FindAll(b => b.Title.Contains(searchTerm)),
+            "author" => books.FindAll(b => b.Author.Contains(searchTerm)),
+            _ => throw new Exception("Unknown search type: " + type)
+        };
+        
+        if (searchResult.Any())
+        {
+            OutputWriter.Search.SearchResults(searchResult);
+        } 
+        else OutputWriter.Search.SearchResultsEmpty();
+
+        Console.ReadLine();
+    }
+    
     public void AddBook()
     {
-        OutputWriter.AddBookBegin();
+        OutputWriter.Add.AddBookBegin();
         var enteringData = true;
         while (enteringData)
         {
-            var title = OutputWriter.AddBookTitlePrompt();
-            var author = OutputWriter.AddBookAuthorPrompt();
+            var title = OutputWriter.Add.AddBookTitlePrompt();
+            if (CheckForExit(title)) return;
+            var author = OutputWriter.Add.AddBookAuthorPrompt();
+            if (CheckForExit(title)) return;
 
-            var confirmation = OutputWriter.AddBookConfirmationPrompt(title, author);
+            var confirmation = OutputWriter.Add.AddBookConfirmationPrompt(title, author);
+            if (CheckForExit(title)) return;
             
             if (string.Equals(confirmation, "yes", StringComparison.OrdinalIgnoreCase))
             {
-                OutputWriter.AddBookConfirmed(title, author);
+                OutputWriter.Add.AddBookConfirmed(title, author);
                 LibraryRepo.AddBook(new Book(title, author));
             }
             else
             {
-                OutputWriter.AddBookContinuePrompt();
+                OutputWriter.Add.AddBookContinuePrompt();
+                if (CheckForExit(title)) return;
                 if (string.Equals(confirmation, "yes", StringComparison.OrdinalIgnoreCase)) continue;
             }
             enteringData = false;
         }
-        OutputWriter.AddBookReturn();
+        OutputWriter.Add.AddBookReturn();
+    }
+
+    private static bool CheckForExit(string text)
+    {
+        return text.Contains("exit", StringComparison.CurrentCultureIgnoreCase);
     }
 }
