@@ -64,7 +64,7 @@ public class LibraryService(ILibraryRepository libraryRepo)
 
             var book = LibraryRepo.SearchBook(title);
 
-            if (book.Author.Contains(author))
+            if (book != null && book.Author.Contains(author))
             {
                 var bookFoundTryAgain = OutputWriter.Add.BookAlreadyInLibrary(book.Title, book.Author);
                 if (bookFoundTryAgain.Contains("yes", StringComparison.OrdinalIgnoreCase)) continue;
@@ -100,6 +100,12 @@ public class LibraryService(ILibraryRepository libraryRepo)
             if (CheckForExit(title)) return;
             
             var book = LibraryRepo.SearchBook(title);
+            if (book == null)
+            {
+                OutputWriter.ErrorResponses.BookNotFound(title);
+                return;
+            }
+            
             var confirmed = OutputWriter.Delete.DeleteTitleConfirmationPrompt(book.Title, book.Author);
             if (CheckForExit(title)) return;
             
@@ -123,6 +129,12 @@ public class LibraryService(ILibraryRepository libraryRepo)
         if (CheckForExit(title)) return;
         
         var book = LibraryRepo.SearchBook(title);
+        if (book == null)
+        {
+            OutputWriter.ErrorResponses.BookNotFound(title);
+            return;
+        }
+        
         var confirmed = OutputWriter.Borrow.BorrowBookConfirmationPrompt(book.Title, book.Author);
         if (CheckForExit(title)) return;
         if (confirmed.Contains("yes", StringComparison.OrdinalIgnoreCase)) 
@@ -140,6 +152,11 @@ public class LibraryService(ILibraryRepository libraryRepo)
         if (CheckForExit(title)) return;
         
         var book = LibraryRepo.SearchBook(title);
+        if (book == null)
+        {
+            OutputWriter.ErrorResponses.BookNotFound(title);
+            return;
+        }
         
         var confirmed = OutputWriter.Return.ReturnBookConfirmationPrompt(book.Title, book.Author);
         if (CheckForExit(title)) return;
