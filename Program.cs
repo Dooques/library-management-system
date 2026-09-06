@@ -2,6 +2,7 @@ using System.Text.Json;
 using library_management.Model;
 using library_management.Services.Database;
 using library_management.Services.IO;
+using library_management.Services.Library;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 using var dbContext = new LibraryContext();
@@ -26,11 +27,12 @@ catch (Exception e)
 
 var libraryRepo = new LibraryRepository(dbContext);
 var libraryService = new LibraryService(libraryRepo);
+var library = new Library(libraryService);
 
     var running = true;
     while (running)
     { 
-        LibraryService.WelcomeMessage();
+        library.Welcome();
     
         Console.Write("    ");
         var userInput = InputReader.Read();
@@ -43,32 +45,32 @@ var libraryService = new LibraryService(libraryRepo);
         }
         if (userInput.Contains("add", StringComparison.CurrentCultureIgnoreCase))
         {
-            libraryService.AddBook();
+            library.AddBook();
         }
         
         if (userInput.Contains("view", StringComparison.CurrentCultureIgnoreCase))
         {
-            libraryService.ViewBooks();
+            library.ViewBooks();
         }
         
         if (userInput.Contains("search", StringComparison.CurrentCultureIgnoreCase))
         {
-            libraryService.SearchBooks();
+            library.SearchBooks();
         }
         
         if (userInput.Contains("delete", StringComparison.CurrentCultureIgnoreCase))
         {
-            libraryService.DeleteBook();
+            library.DeleteBook();
         }
         
         if (userInput.Contains("borrow", StringComparison.CurrentCultureIgnoreCase))
         {
-            libraryService.BorrowBook();
+            library.BorrowBook();
         }
         
         if (userInput.Contains("return", StringComparison.CurrentCultureIgnoreCase))
         {
-            libraryService.ReturnBook();
+            library.ReturnBook();
         } 
     }
     catch (Exception e)
