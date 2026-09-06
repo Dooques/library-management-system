@@ -53,4 +53,19 @@ while (running)
     {
         libraryService.SearchBooks();
     }
+    
+    if (userInput.Contains("delete", StringComparison.CurrentCultureIgnoreCase))
+    {
+        libraryService.SearchBooks();
+    }
+    
+    if (userInput.Contains("borrow", StringComparison.CurrentCultureIgnoreCase))
+    {
+        libraryService.SearchBooks();
+    }
+    
+    if (userInput.Contains("return", StringComparison.CurrentCultureIgnoreCase))
+    {
+        libraryService.SearchBooks();
+    }
 }
