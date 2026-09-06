@@ -136,8 +136,12 @@ public class LibraryService(ILibraryRepository libraryRepo)
         
         var confirmed = OutputWriter.Borrow.BorrowBookConfirmationPrompt(book.Title, book.Author);
         if (CheckForExit(title)) return;
-        if (confirmed.Contains("yes", StringComparison.OrdinalIgnoreCase)) 
+
+        if (confirmed.Contains("yes", StringComparison.OrdinalIgnoreCase))
+        {
             OutputWriter.Borrow.BorrowBookConfirmed(title, book.Author);
+            LibraryRepo.BorrowBook(book.Title);
+        }
         else 
             OutputWriter.NotConfirmed();
         
@@ -161,7 +165,10 @@ public class LibraryService(ILibraryRepository libraryRepo)
         if (CheckForExit(title)) return;
         
         if (confirmed.Contains("yes", StringComparison.OrdinalIgnoreCase))
+        {
             OutputWriter.Return.ReturnBookConfirmed(title, book.Author);
+            LibraryRepo.ReturnBook(book.Title);
+        }
         else
             OutputWriter.NotConfirmed();
         
