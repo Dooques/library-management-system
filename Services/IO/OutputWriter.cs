@@ -319,6 +319,35 @@ public static class OutputWriter
         
     }
 
+    public static class ErrorResponses
+    {
+        public static void HandleError(Exception e)
+        {
+            Console.WriteLine(
+                $"""
+                
+                Looks like something went wrong:
+                    {e.Message}
+                    
+                Press enter to start over:
+                """
+                );
+            
+            Console.ReadLine();
+        }
+
+        public static void BookNotFound(string title)
+        {
+            Console.WriteLine(
+                $"""
+                
+                {title} was not found, press enter to return to the menu:
+                """
+            );
+            Console.ReadLine();
+        }
+    }
+
     public static void NotConfirmed()
     {
         Console.WriteLine(
