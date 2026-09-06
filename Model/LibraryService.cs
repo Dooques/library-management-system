@@ -56,6 +56,15 @@ public class LibraryService(ILibraryRepository libraryRepo)
             var author = OutputWriter.Add.AddBookAuthorPrompt();
             if (CheckForExit(title)) return;
 
+            var book = LibraryRepo.SearchBook(title);
+
+            if (book.Author.Contains(author))
+            {
+                var bookFoundTryAgain = OutputWriter.Add.BookAlreadyInLibrary(book.Title, book.Author);
+                if (bookFoundTryAgain.Contains("yes", StringComparison.OrdinalIgnoreCase)) continue;
+                return;
+            }
+
             var confirmation = OutputWriter.Add.AddBookConfirmationPrompt(title, author);
             if (CheckForExit(title)) return;
             
