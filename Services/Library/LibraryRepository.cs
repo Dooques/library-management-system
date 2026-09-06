@@ -4,7 +4,8 @@ namespace library_management.Model;
 
 public interface ILibraryRepository
 {
-    void AddBook(Book book);
+    Book AddBook(Book book);
+    Book DeleteBook(Book book);
     List<Book> GetBooks();
     Book? SearchBook(string title);
     Book? BorrowBook(string title);
@@ -13,10 +14,18 @@ public interface ILibraryRepository
 
 public class LibraryRepository(LibraryContext books) : ILibraryRepository
 {
-    public void AddBook(Book book)
+    public Book AddBook(Book book)
     {
         books.Books.Add(book);
         books.SaveChanges();
+        return book;
+    }
+
+    public Book DeleteBook(Book book)
+    {
+        books.Books.Remove(book);
+        books.SaveChanges();
+        return book;
     }
     
     public List<Book> GetBooks() {
