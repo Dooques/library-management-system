@@ -14,7 +14,6 @@ try
             File.ReadAllText("Resources/Books.json")
             ) 
         ?? throw new Exception("No books found in Resources");
-    Console.WriteLine(seedBooks.Count);
     dbContext.Books.AddRange(seedBooks);
     dbContext.SaveChanges();
 }
@@ -24,18 +23,16 @@ catch (Exception e)
     throw;
 }
 
-Console.ReadLine();
-
 var libraryRepo = new LibraryRepository(dbContext);
 var libraryService = new LibraryService(libraryRepo);
 
 var running = true;
 while (running)
 { 
-    OutputWriter.WelcomeMessage();
+    LibraryService.WelcomeMessage();
     
     Console.Write("    ");
-    var userInput = InputReader.ReadInput();
+    var userInput = InputReader.Read();
     
     if  (userInput == "exit")
     {
@@ -47,4 +44,13 @@ while (running)
         libraryService.AddBook();
     }
     
+    if (userInput.Contains("view", StringComparison.CurrentCultureIgnoreCase))
+    {
+        libraryService.ViewBooks();
+    }
+    
+    if (userInput.Contains("search", StringComparison.CurrentCultureIgnoreCase))
+    {
+        libraryService.SearchBooks();
+    }
 }
