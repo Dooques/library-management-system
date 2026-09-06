@@ -1,4 +1,5 @@
-﻿using library_management.Model;
+﻿using System.Reflection;
+using library_management.Model;
 
 namespace library_management.Services.IO;
 
@@ -13,6 +14,7 @@ public static class OutputWriter
                 """
                 Welcome to the Library Management System
                     Created by Dooques
+                    
                 Type 'exit' or 'quit' to close the application at any time.
                 """
             );
@@ -50,8 +52,6 @@ public static class OutputWriter
             {
                 Console.WriteLine("    " + book);
             }
-
-            Console.ReadLine();
         }
     }
 
@@ -62,13 +62,13 @@ public static class OutputWriter
             Console.WriteLine(
                 """
                 
-                Would you like to search by title or artist?
+                Would you like to search by title or author?
                 """
             );
             return InputReader.Read();
         }
 
-        public static string SearchTerm(string type)
+        public static string SearchTerm()
         {
             Console.WriteLine(
                 """
