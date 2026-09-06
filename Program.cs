@@ -2,6 +2,7 @@ using System.Text.Json;
 using library_management.Model;
 using library_management.Services.Database;
 using library_management.Services.IO;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 using var dbContext = new LibraryContext();
 dbContext.Database.EnsureDeleted();
@@ -56,16 +57,19 @@ while (running)
     
     if (userInput.Contains("delete", StringComparison.CurrentCultureIgnoreCase))
     {
-        libraryService.SearchBooks();
+        Console.WriteLine("Delete");
+        throw new NotImplementedException();
     }
     
     if (userInput.Contains("borrow", StringComparison.CurrentCultureIgnoreCase))
     {
-        libraryService.SearchBooks();
+        Console.WriteLine("borrow");
+        throw new NotImplementedException();
     }
     
     if (userInput.Contains("return", StringComparison.CurrentCultureIgnoreCase))
     {
-        libraryService.SearchBooks();
+        Console.WriteLine("return");
+        throw new NotImplementedException();
     }
 }
