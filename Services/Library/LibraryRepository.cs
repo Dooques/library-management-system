@@ -1,6 +1,7 @@
-﻿using library_management.Services.Database;
+﻿using library_management.Model;
+using library_management.Services.Database;
 
-namespace library_management.Model;
+namespace library_management.Services.Library;
 
 public interface ILibraryRepository
 {
