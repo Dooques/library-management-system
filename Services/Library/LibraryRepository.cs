@@ -14,6 +14,15 @@ public interface ILibraryRepository
 
 public class LibraryRepository(LibraryContext books) : ILibraryRepository
 {
+    public List<Book> GetBooks() {
+        return books.Books.ToList();
+    }
+
+    public Book? SearchBook(string title)
+    {
+        return FindBookInDb(title);
+    }
+
     public Book AddBook(Book book)
     {
         books.Books.Add(book);
@@ -28,15 +37,6 @@ public class LibraryRepository(LibraryContext books) : ILibraryRepository
         return book;
     }
     
-    public List<Book> GetBooks() {
-        return books.Books.ToList();
-    }
-
-    public Book? SearchBook(string title)
-    {
-        return FindBookInDb(title);
-    }
-
     public Book? BorrowBook(string title)
     {
         var foundBook = FindBookInDb(title); 
