@@ -5,7 +5,7 @@ namespace library_management.Services.Library;
 public interface ILibraryService
 {
     public List<Book> GetBooks();
-    public Book? SearchBook(string title);
+    public Book? FetchBook(string title);
     public List<Book> SearchBooks(string type, string searchTerm);
     public Book AddBook(string title, string author);
     public Book DeleteBook(Book book);
@@ -20,9 +20,16 @@ public class LibraryService(ILibraryRepository libraryRepository): ILibraryServi
         return libraryRepository.GetBooks();
     }
 
-    public Book? SearchBook(string title)
+    public Book? FetchBook(string title)
     {
-        return libraryRepository.SearchBook(title);
+        try
+        {
+            return libraryRepository.FetchBook(title);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
     }
     
     public List<Book> SearchBooks(string type, string searchTerm)
