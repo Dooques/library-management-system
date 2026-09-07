@@ -311,7 +311,7 @@ public static class OutputWriter
             Console.WriteLine(
                 $"""
 
-                 {bookTitle} by {bookAuthor} has been borrowed.
+                 {bookTitle} by {bookAuthor} has been returned.
                  """
             );
         }
