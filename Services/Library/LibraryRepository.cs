@@ -8,7 +8,7 @@ public interface ILibraryRepository
     Book AddBook(Book book);
     Book DeleteBook(Book book);
     List<Book> GetBooks();
-    Book? SearchBook(string title);
+    Book? FetchBook(string title);
     Book? BorrowBook(string title);
     Book? ReturnBook(string title);
 }
@@ -19,7 +19,7 @@ public class LibraryRepository(LibraryContext books) : ILibraryRepository
         return books.Books.ToList();
     }
 
-    public Book? SearchBook(string title)
+    public Book? FetchBook(string title)
     {
         return FindBookInDb(title);
     }
@@ -40,7 +40,7 @@ public class LibraryRepository(LibraryContext books) : ILibraryRepository
     
     public Book? BorrowBook(string title)
     {
-        var foundBook = FindBookInDb(title); 
+        var foundBook = FetchBook(title); 
         
         foundBook?.BorrowBook();
         return foundBook;
@@ -48,14 +48,9 @@ public class LibraryRepository(LibraryContext books) : ILibraryRepository
 
     public Book? ReturnBook(string title)
     {
-        var foundBook = FindBookInDb(title);
+        var foundBook = FetchBook(title);
         
         foundBook?.ReturnBook();
         return foundBook;
-    }
-
-    private Book? FindBookInDb(string title)
-    {
-        return books.Books.FirstOrDefault(b => b.Title == title);
     }
 }
