@@ -56,6 +56,9 @@ public class LibraryService(ILibraryRepository libraryRepository): ILibraryServi
 
     public Book AddBook(string title, string author)
     {
+        if (string.IsNullOrEmpty(title)) throw new ArgumentNullException(nameof(title));
+        if (string.IsNullOrEmpty(author)) throw new ArgumentNullException(nameof(author));
+
         return libraryRepository.AddBook(new Book(title, author));
     }
 
