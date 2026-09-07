@@ -34,6 +34,12 @@ public class LibraryService(ILibraryRepository libraryRepository): ILibraryServi
     
     public List<Book> SearchBooks(string type, string searchTerm)
     {
+        if (string.IsNullOrEmpty(type)) 
+            throw new ArgumentNullException(nameof(type));
+        
+        if (string.IsNullOrEmpty(searchTerm)) 
+            throw new ArgumentNullException(nameof(searchTerm));
+        
         var books = libraryRepository.GetBooks();
         
         var searchResult = type switch
