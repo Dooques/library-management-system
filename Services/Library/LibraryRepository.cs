@@ -21,7 +21,9 @@ public class LibraryRepository(LibraryContext books) : ILibraryRepository
 
     public Book? FetchBook(string title)
     {
-        return FindBookInDb(title);
+        return string.IsNullOrEmpty(title) ? 
+            throw new Exception("Search should not be empty") : 
+            books.Books.FirstOrDefault(b => b.Title == title);
     }
 
     public Book AddBook(Book book)
