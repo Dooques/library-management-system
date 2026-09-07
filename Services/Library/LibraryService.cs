@@ -72,14 +72,14 @@ public class LibraryService(ILibraryRepository libraryRepository): ILibraryServi
     {
         if (book.IsBorrowed) throw new Exception("Book already borrowed");
         
-        libraryRepository.BorrowBook(book.Title);
-        return book;
+        var borrowedBook = libraryRepository.BorrowBook(book.Title);
+        return borrowedBook;
     }
 
     public Book ReturnBook(Book book)
     {
         if (!book.IsBorrowed) throw new Exception("Book not borrowed");
-        libraryRepository.ReturnBook(book.Title);
-        return book;
+        var returnedBook = libraryRepository.ReturnBook(book.Title);
+        return returnedBook;
     }
 }
