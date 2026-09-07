@@ -9,8 +9,8 @@ public interface ILibraryService
     public List<Book> SearchBooks(string type, string searchTerm);
     public Book AddBook(string title, string author);
     public Book DeleteBook(Book book);
-    public Book BorrowBook(Book book);
-    public Book ReturnBook(Book book);
+    public Book? BorrowBook(Book book);
+    public Book? ReturnBook(Book book);
 }
 
 public class LibraryService(ILibraryRepository libraryRepository): ILibraryService
@@ -68,7 +68,7 @@ public class LibraryService(ILibraryRepository libraryRepository): ILibraryServi
         return book;
     }
 
-    public Book BorrowBook(Book book)
+    public Book? BorrowBook(Book book)
     {
         if (book.IsBorrowed) throw new Exception("Book already borrowed");
         
@@ -76,7 +76,7 @@ public class LibraryService(ILibraryRepository libraryRepository): ILibraryServi
         return borrowedBook;
     }
 
-    public Book ReturnBook(Book book)
+    public Book? ReturnBook(Book book)
     {
         if (!book.IsBorrowed) throw new Exception("Book not borrowed");
         var returnedBook = libraryRepository.ReturnBook(book.Title);
