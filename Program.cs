@@ -28,52 +28,50 @@ var libraryRepo = new LibraryRepository(dbContext);
 var libraryService = new LibraryService(libraryRepo);
 var library = new Library(libraryService);
 
-    var running = true;
-    while (running)
-    { 
-        library.Welcome();
-    
-        Console.Write("    ");
-        var userInput = InputReader.Read();
-    
-        try
-        {
-        if  (userInput == "exit")
+var running = true;
+while (running)
+{ 
+    library.Welcome();
+
+    Console.Write("    ");
+    var userInput = InputReader.Read();
+
+    try
+    {
+        if (userInput == "exit")
         {
             running = false;
         }
-        if (userInput.Contains("add", StringComparison.CurrentCultureIgnoreCase))
+        else
         {
-            library.AddBook();
+            if (userInput.Contains("add", StringComparison.CurrentCultureIgnoreCase))
+            {
+                library.AddBook();
+            }
+            else if (userInput.Contains("view", StringComparison.CurrentCultureIgnoreCase))
+            {
+                library.ViewBooks();
+            }
+            else if (userInput.Contains("search", StringComparison.CurrentCultureIgnoreCase))
+            {
+                library.SearchBooks();
+            }
+            else if (userInput.Contains("delete", StringComparison.CurrentCultureIgnoreCase))
+            {
+                library.DeleteBook();
+            }
+            else if (userInput.Contains("borrow", StringComparison.CurrentCultureIgnoreCase))
+            {
+                library.BorrowBook();
+            }
+            else if (userInput.Contains("return", StringComparison.CurrentCultureIgnoreCase))
+            {
+                library.ReturnBook();
+            }
         }
-        
-        if (userInput.Contains("view", StringComparison.CurrentCultureIgnoreCase))
-        {
-            library.ViewBooks();
-        }
-        
-        if (userInput.Contains("search", StringComparison.CurrentCultureIgnoreCase))
-        {
-            library.SearchBooks();
-        }
-        
-        if (userInput.Contains("delete", StringComparison.CurrentCultureIgnoreCase))
-        {
-            library.DeleteBook();
-        }
-        
-        if (userInput.Contains("borrow", StringComparison.CurrentCultureIgnoreCase))
-        {
-            library.BorrowBook();
-        }
-        
-        if (userInput.Contains("return", StringComparison.CurrentCultureIgnoreCase))
-        {
-            library.ReturnBook();
-        } 
-    }
-    catch (Exception e)
-    {
-        OutputWriter.ErrorResponses.HandleError(e);
+    } 
+    catch (Exception e) 
+    { 
+        OutputWriter.ErrorResponses.HandleError(e); 
     }
 }
