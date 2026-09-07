@@ -55,7 +55,7 @@ public class Library(ILibraryService libraryService)
             var author = OutputWriter.Add.AddBookAuthorPrompt();
             if (CheckForExit(title)) return;
 
-            var book = _libraryService.SearchBook(title);
+            var book = _libraryService.FetchBook(title);
 
             if (book != null && book.Author.Contains(author))
             {
@@ -91,7 +91,7 @@ public class Library(ILibraryService libraryService)
             var title = OutputWriter.Delete.DeleteTitlePrompt();
             if (CheckForExit(title)) return;
             
-            var book = _libraryService.SearchBook(title);
+            var book = _libraryService.FetchBook(title);
             if (book == null)
             {
                 OutputWriter.ErrorResponses.BookNotFound(title);
@@ -121,7 +121,7 @@ public class Library(ILibraryService libraryService)
         var title = OutputWriter.Borrow.BorrowBookPrompt();
         if (CheckForExit(title)) return;
         
-        var book = _libraryService.SearchBook(title);
+        var book = _libraryService.FetchBook(title);
         if (book == null)
         {
             OutputWriter.ErrorResponses.BookNotFound(title);
@@ -148,7 +148,7 @@ public class Library(ILibraryService libraryService)
         var title = OutputWriter.Return.ReturnBookPrompt();
         if (CheckForExit(title)) return;
         
-        var book = _libraryService.SearchBook(title);
+        var book = _libraryService.FetchBook(title);
         if (book == null)
         {
             OutputWriter.ErrorResponses.BookNotFound(title);
