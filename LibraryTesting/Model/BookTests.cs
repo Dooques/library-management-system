@@ -1,6 +1,6 @@
 ﻿using library_management.Model;
 
-namespace LibraryTesting;
+namespace LibraryTesting.Model;
 
 public class BookTests
 {

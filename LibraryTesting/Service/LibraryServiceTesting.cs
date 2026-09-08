@@ -4,7 +4,7 @@ using library_management.Services.Library;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 
-namespace LibraryTesting;
+namespace LibraryTesting.Service;
 
 public class LibraryServiceTesting
 {
