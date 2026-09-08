@@ -65,7 +65,7 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
     private void SearchBooks()
     {
         outputWriter.Welcome.WelcomeMessage();
-        var type = outputWriter.Search.SearchByPrompt();
+        var type = outputWriter.Search.TypePrompt();
         if (CheckForExit(type)) return;
         
         if (!type.Contains("title", StringComparison.OrdinalIgnoreCase)
@@ -81,7 +81,7 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
         {
             outputWriter.Search.SearchResults(foundBooks);
         } 
-        else outputWriter.Search.SearchResultsEmpty();
+        else outputWriter.Search.ResultsEmpty();
         
         outputWriter.ReturnToMenu();
     }
@@ -89,7 +89,7 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
     private void ViewBooks()
     {
         outputWriter.Welcome.WelcomeMessage();
-        outputWriter.View.ViewBooks(libraryService.GetBooks());
+        outputWriter.View.List(libraryService.GetBooks());
         outputWriter.ReturnToMenu();
     }
 
@@ -144,7 +144,7 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
         var deleting = true;
         while (deleting)
         {
-            var title = outputWriter.Delete.DeleteTitlePrompt();
+            var title = outputWriter.Delete.TitlePrompt();
             if (CheckForExit(title)) return;
             Book book;
 
@@ -158,12 +158,12 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
                 return;
             }
             
-            var confirmed = outputWriter.Delete.DeleteTitleConfirmationPrompt(book.Title, book.Author);
+            var confirmed = outputWriter.Delete.TitleConfirmationPrompt(book.Title, book.Author);
             if (CheckForExit(title)) return;
             
             if (confirmed.Contains("yes", StringComparison.OrdinalIgnoreCase))
             {
-                outputWriter.Delete.DeleteBookConfirmed(book.Title, book.Author);
+                outputWriter.Delete.BookConfirmed(book.Title, book.Author);
                 libraryService.DeleteBook(book);
                 Console.ReadLine();
                 deleting = false;
@@ -178,7 +178,7 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
     private void BorrowBook()
     {
         outputWriter.Welcome.WelcomeMessage();
-        var title = outputWriter.Borrow.BorrowBookPrompt();
+        var title = outputWriter.Borrow.TitlePrompt();
         if (CheckForExit(title)) return;
         
         Book book;
@@ -192,12 +192,12 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
             return;
         }
         
-        var confirmed = outputWriter.Borrow.BorrowBookConfirmationPrompt(book.Title, book.Author);
+        var confirmed = outputWriter.Borrow.ConfirmationPrompt(book.Title, book.Author);
         if (CheckForExit(title)) return;
 
         if (confirmed.Contains("yes", StringComparison.OrdinalIgnoreCase))
         {
-            outputWriter.Borrow.BorrowBookConfirmed(title, book.Author);
+            outputWriter.Borrow.Confirmed(title, book.Author);
             libraryService.BorrowBook(book);
         }
         else 
@@ -209,7 +209,7 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
     private void ReturnBook()
     {
         outputWriter.Welcome.WelcomeMessage();
-        var title = outputWriter.Return.ReturnBookPrompt();
+        var title = outputWriter.Return.BookPrompt();
         if (CheckForExit(title)) return;
 
         Book book;
@@ -223,12 +223,12 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
             return;
         }
 
-        var confirmed = outputWriter.Return.ReturnBookConfirmationPrompt(book.Title, book.Author);
+        var confirmed = outputWriter.Return.ConfirmationPrompt(book.Title, book.Author);
         if (CheckForExit(title)) return;
         
         if (confirmed.Contains("yes", StringComparison.OrdinalIgnoreCase))
         {
-            outputWriter.Return.ReturnBookConfirmed(book.Title, book.Author);
+            outputWriter.Return.Confirmed(book.Title, book.Author);
             libraryService.ReturnBook(book);
         }
         else
