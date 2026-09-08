@@ -8,9 +8,9 @@ public interface ILibraryRepository
     Book AddBook(Book book);
     Book DeleteBook(Book book);
     List<Book> GetBooks();
-    Book? FetchBook(string title);
-    Book? BorrowBook(string title);
-    Book? ReturnBook(string title);
+    Book FetchBook(string title);
+    Book BorrowBook(Book book);
+    Book ReturnBook(Book book);
 }
 
 public class LibraryRepository(LibraryContext books) : ILibraryRepository
@@ -19,7 +19,7 @@ public class LibraryRepository(LibraryContext books) : ILibraryRepository
         return books.Books.ToList();
     }
 
-    public Book? FetchBook(string title)
+    public Book FetchBook(string title)
     {
         return string.IsNullOrEmpty(title) ? 
             throw new Exception("Search should not be empty") : 
@@ -40,19 +40,15 @@ public class LibraryRepository(LibraryContext books) : ILibraryRepository
         return book;
     }
     
-    public Book? BorrowBook(string title)
+    public Book BorrowBook(Book book)
     {
-        var foundBook = FetchBook(title); 
-        
-        foundBook?.BorrowBook();
-        return foundBook;
+        book.BorrowBook();
+        return book;
     }
 
-    public Book? ReturnBook(string title)
+    public Book ReturnBook(Book book)
     {
-        var foundBook = FetchBook(title);
-        
-        foundBook?.ReturnBook();
-        return foundBook;
+        book.ReturnBook();
+        return book;
     }
 }
