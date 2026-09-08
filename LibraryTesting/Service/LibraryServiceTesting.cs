@@ -11,18 +11,19 @@ public class LibraryServiceTesting
     private Mock<ILibraryRepository> _mockLibraryRepo;
     private LibraryService _libraryService;
 
-    private readonly List<Book> _booklist =
-    [
-        new Book("Dune", "Frank Herbert"),
-        new Book("Neuromancer", "William Gibson"),
-        new Book("Foundation", "Isaac Asimov")
-    ];
+    private List<Book> _booklist;
     
     [SetUp]
     public void Setup()
     {
         _mockLibraryRepo = new Mock<ILibraryRepository>();
         _libraryService = new LibraryService(_mockLibraryRepo.Object);
+        _booklist =
+        [
+            new Book("Dune", "Frank Herbert"),
+            new Book("Neuromancer", "William Gibson"),
+            new Book("Foundation", "Isaac Asimov")
+        ];
     }
 
     [Test]
