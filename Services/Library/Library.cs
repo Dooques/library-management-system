@@ -5,8 +5,56 @@ namespace library_management.Model;
 
 public class Library(ILibraryService libraryService)
 {
-    private ILibraryService _libraryService = libraryService;
+    public void Run()
+    {
+        var running = true;
+        while (running)
+        { 
+            Welcome();
 
+            Console.Write("    ");
+            var userInput = InputReader.Read();
+
+            try
+            {
+                if (userInput == "exit")
+                {
+                    running = false;
+                }
+                else
+                {
+                    if (userInput.Contains("add", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        AddBook();
+                    }
+                    else if (userInput.Contains("view", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        ViewBooks();
+                    }
+                    else if (userInput.Contains("search", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        SearchBooks();
+                    }
+                    else if (userInput.Contains("delete", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        DeleteBook();
+                    }
+                    else if (userInput.Contains("borrow", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        BorrowBook();
+                    }
+                    else if (userInput.Contains("return", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        ReturnBook();
+                    }
+                }
+            } 
+            catch (Exception e) 
+            { 
+                outputWriter.ErrorResponse.HandleError(e); 
+            }
+        }
+    }
     public void Welcome()
     {
         OutputWriter.Welcome.WelcomeMessage();

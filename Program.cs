@@ -33,45 +33,4 @@ while (running)
 { 
     library.Welcome();
 
-    Console.Write("    ");
-    var userInput = InputReader.Read();
-
-    try
-    {
-        if (userInput == "exit")
-        {
-            running = false;
-        }
-        else
-        {
-            if (userInput.Contains("add", StringComparison.CurrentCultureIgnoreCase))
-            {
-                library.AddBook();
-            }
-            else if (userInput.Contains("view", StringComparison.CurrentCultureIgnoreCase))
-            {
-                library.ViewBooks();
-            }
-            else if (userInput.Contains("search", StringComparison.CurrentCultureIgnoreCase))
-            {
-                library.SearchBooks();
-            }
-            else if (userInput.Contains("delete", StringComparison.CurrentCultureIgnoreCase))
-            {
-                library.DeleteBook();
-            }
-            else if (userInput.Contains("borrow", StringComparison.CurrentCultureIgnoreCase))
-            {
-                library.BorrowBook();
-            }
-            else if (userInput.Contains("return", StringComparison.CurrentCultureIgnoreCase))
-            {
-                library.ReturnBook();
-            }
-        }
-    } 
-    catch (Exception e) 
-    { 
-        OutputWriter.ErrorResponses.HandleError(e); 
-    }
-}
+library.Run();
