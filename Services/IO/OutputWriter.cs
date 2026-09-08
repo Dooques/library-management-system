@@ -75,6 +75,9 @@ public class WelcomeMessages
                 Write your command below:
                 """
             );
+            
+            Console.Write("    ");
+            return _inputReader.Read();
         }
     }
 

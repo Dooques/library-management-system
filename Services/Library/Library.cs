@@ -10,11 +10,8 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
         var running = true;
         while (running)
         { 
-            Welcome();
-
-            Console.Write("    ");
-            var userInput = InputReader.Read();
-
+            var userInput = Welcome();
+            
             try
             {
                 if (userInput == "exit")
@@ -56,10 +53,10 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
         }
     }
 
-    private void Welcome()
+    private string Welcome()
     {
         outputWriter.Welcome.WelcomeMessage();
-        outputWriter.Welcome.MenuOptions();
+        return outputWriter.Welcome.MenuOptions();
     }
 
     private void SearchBooks()
