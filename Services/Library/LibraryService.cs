@@ -17,7 +17,7 @@ public class LibraryService(ILibraryRepository libraryRepository): ILibraryServi
 {
     public List<Book> GetBooks()
     {
-        return libraryRepository.GetBooks();
+        return libraryRepository.GetBooks().FindAll(b => !b.IsBorrowed);
     }
 
     public Book FetchBook(string title)

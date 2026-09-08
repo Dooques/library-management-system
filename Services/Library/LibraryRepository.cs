@@ -16,7 +16,7 @@ public interface ILibraryRepository
 public class LibraryRepository(LibraryContext books) : ILibraryRepository
 {
     public List<Book> GetBooks() {
-        return books.Books.Where(x => !x.IsBorrowed).Select(x => x).ToList();
+        return books.Books.ToList();
     }
 
     public Book FetchBook(string title)
