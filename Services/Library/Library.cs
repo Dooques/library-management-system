@@ -104,9 +104,18 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
             var author = outputWriter.Add.AddBookAuthorPrompt();
             if (CheckForExit(title)) return;
 
-            var book = libraryService.FetchBook(title);
+            Book book;
+            try
+            {
+                book = libraryService.FetchBook(title);
+            }
+            catch (Exception e)
+            {
+                outputWriter.ErrorResponse.BookNotFound(title);
+                return;
+            }
 
-            if (book != null && book.Author.Contains(author))
+            if (book.Author.Contains(author))
             {
                 var bookFoundTryAgain = outputWriter.Add.BookAlreadyInLibrary(book.Title, book.Author);
                 if (bookFoundTryAgain.Contains("yes", StringComparison.OrdinalIgnoreCase)) continue;
@@ -139,9 +148,13 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
         {
             var title = outputWriter.Delete.DeleteTitlePrompt();
             if (CheckForExit(title)) return;
-            
-            var book = libraryService.FetchBook(title);
-            if (book == null)
+            Book book;
+
+            try
+            {
+                book = libraryService.FetchBook(title);
+            }
+            catch(Exception e)
             {
                 outputWriter.ErrorResponse.BookNotFound(title);
                 return;
@@ -169,6 +182,7 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
         outputWriter.Welcome.WelcomeMessage();
         var title = outputWriter.Borrow.BorrowBookPrompt();
         if (CheckForExit(title)) return;
+        
         Book book;
         try
         {
@@ -199,8 +213,17 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
         outputWriter.Welcome.WelcomeMessage();
         var title = outputWriter.Return.ReturnBookPrompt();
         if (CheckForExit(title)) return;
-        
-        var book = libraryService.FetchBook(title);
+
+        Book book;
+        try
+        {
+            book = libraryService.FetchBook(title);
+        }
+        catch (Exception e)
+        {
+            outputWriter.ErrorResponse.BookNotFound(title);
+            return;
+        }
 
         var confirmed = outputWriter.Return.ReturnBookConfirmationPrompt(book.Title, book.Author);
         if (CheckForExit(title)) return;
