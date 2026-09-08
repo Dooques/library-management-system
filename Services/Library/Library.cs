@@ -29,7 +29,7 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
                     }
                     else if (userInput.Contains("view", StringComparison.CurrentCultureIgnoreCase))
                     {
-                        ViewBooks();
+                        ViewAvailableBooks();
                     }
                     else if (userInput.Contains("search", StringComparison.CurrentCultureIgnoreCase))
                     {
@@ -86,10 +86,10 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
         outputWriter.ReturnToMenu();
     }
 
-    private void ViewBooks()
+    private void ViewAvailableBooks()
     {
         outputWriter.Welcome.WelcomeMessage();
-        outputWriter.View.List(libraryService.GetBooks());
+        outputWriter.View.List(libraryService.FetchAvailableBooks());
         outputWriter.ReturnToMenu();
     }
 

@@ -23,7 +23,7 @@ var outputWriter = new OutputWriter(
 
 var library = new Library(libraryService, outputWriter);
 
-if (libraryRepo.GetBooks().Count <= 0)
+if (libraryRepo.FetchBooks().Count <= 0)
 {
     try
     {

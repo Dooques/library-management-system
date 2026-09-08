@@ -29,8 +29,8 @@ public class LibraryServiceTesting
     public void GetBooks_ValidBooks_ShouldReturnAllBooks()
     {
         _mockLibraryRepo.Setup(x => 
-            x.GetBooks()).Returns(_booklist);
-        var books = _libraryService.GetBooks();
+            x.FetchBooks()).Returns(_booklist);
+        var books = _libraryService.FetchAvailableBooks();
         
         Assert.That(books, Has.Count.EqualTo(_booklist.Count));
         Assert.That(books[0], Is.EqualTo(_booklist[0]));
@@ -39,8 +39,8 @@ public class LibraryServiceTesting
     [Test]
     public void GetBooks_InvalidBooks_ShouldReturnNoBooks()
     {
-        _mockLibraryRepo.Setup(x => x.GetBooks()).Returns([]);
-        var books = _libraryService.GetBooks();
+        _mockLibraryRepo.Setup(x => x.FetchBooks()).Returns([]);
+        var books = _libraryService.FetchAvailableBooks();
         
         Assert.That(books, Is.Empty);
     }
@@ -76,7 +76,7 @@ public class LibraryServiceTesting
     [Test]
     public void SearchBooks_TypeTitleValidSearch_ReturnsOne()
     {
-        _mockLibraryRepo.Setup(x => x.GetBooks()).Returns(_booklist);
+        _mockLibraryRepo.Setup(x => x.FetchBooks()).Returns(_booklist);
         
         var books = _libraryService.SearchBooks("title", "Neuromancer");
         Assert.That(books, Has.Count.EqualTo(1));
@@ -86,7 +86,7 @@ public class LibraryServiceTesting
     [Test]
     public void SearchBooks_TypeTitleInvalidSearch_ThrowArgumentNullExcpetion()
     {
-        _mockLibraryRepo.Setup(x => x.GetBooks()).Returns(_booklist);
+        _mockLibraryRepo.Setup(x => x.FetchBooks()).Returns(_booklist);
         Assert.Throws<ArgumentNullException>(() => 
             _libraryService.SearchBooks("title", ""));
     }
@@ -94,7 +94,7 @@ public class LibraryServiceTesting
     [Test]
     public void SearchBooks_TypeAuthorInvalidSearch_ThrowArgumentNullExcpetion()
     {
-        _mockLibraryRepo.Setup(x => x.GetBooks()).Returns(_booklist);
+        _mockLibraryRepo.Setup(x => x.FetchBooks()).Returns(_booklist);
         Assert.Throws<ArgumentNullException>(() => 
             _libraryService.SearchBooks("author", ""));
     }

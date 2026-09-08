@@ -4,7 +4,7 @@ namespace library_management.Services.Library;
 
 public interface ILibraryService
 {
-    public List<Book> GetBooks();
+    public List<Book> FetchAvailableBooks();
     public Book FetchBook(string title);
     public List<Book> SearchBooks(string type, string searchTerm);
     public Book AddBook(string title, string author);
@@ -15,9 +15,9 @@ public interface ILibraryService
 
 public class LibraryService(ILibraryRepository libraryRepository): ILibraryService
 {
-    public List<Book> GetBooks()
+    public List<Book> FetchAvailableBooks()
     {
-        return libraryRepository.GetBooks().FindAll(b => !b.IsBorrowed);
+        return libraryRepository.FetchBooks().FindAll(b => !b.IsBorrowed);
     }
 
     public Book FetchBook(string title)
@@ -33,7 +33,7 @@ public class LibraryService(ILibraryRepository libraryRepository): ILibraryServi
         if (string.IsNullOrEmpty(searchTerm)) 
             throw new ArgumentNullException(nameof(searchTerm));
         
-        var books = libraryRepository.GetBooks();
+        var books = libraryRepository.FetchBooks();
         
         var searchResult = type switch
         {

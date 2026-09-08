@@ -7,7 +7,7 @@ public interface ILibraryRepository
 {
     Book AddBook(Book book);
     Book DeleteBook(Book book);
-    List<Book> GetBooks();
+    List<Book> FetchBooks();
     Book FetchBook(string title);
     Book BorrowBook(Book book);
     Book ReturnBook(Book book);
@@ -15,7 +15,7 @@ public interface ILibraryRepository
 
 public class LibraryRepository(LibraryContext books) : ILibraryRepository
 {
-    public List<Book> GetBooks() {
+    public List<Book> FetchBooks() {
         return books.Books.ToList();
     }
 
