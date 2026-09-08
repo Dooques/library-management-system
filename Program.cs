@@ -8,22 +8,6 @@ using var dbContext = new LibraryContext();
 // dbContext.Database.EnsureDeleted();
 dbContext.Database.EnsureCreated();
 
-try
-{
-    var seedBooks = 
-        JsonSerializer.Deserialize<List<Book>>(
-            File.ReadAllText("Resources/Books.json")
-            ) 
-        ?? throw new Exception("No books found in Resources");
-    dbContext.Books.AddRange(seedBooks);
-    dbContext.SaveChanges();
-}
-catch (Exception e)
-{
-    Console.WriteLine(e);
-    throw;
-}
-
 var libraryRepo = new LibraryRepository(dbContext);
 var libraryService = new LibraryService(libraryRepo);
 var outputWriter = new OutputWriter(
@@ -38,5 +22,24 @@ var outputWriter = new OutputWriter(
 );
 
 var library = new Library(libraryService, outputWriter);
+
+if (libraryRepo.GetBooks().Count <= 0)
+{
+    try
+    {
+        var seedBooks =
+            JsonSerializer.Deserialize<List<Book>>(
+                File.ReadAllText("Resources/Books.json")
+            )
+            ?? throw new Exception("No books found in Resources");
+        dbContext.Books.AddRange(seedBooks);
+        dbContext.SaveChanges();
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e);
+        throw;
+    }
+}
 
 library.Run();
