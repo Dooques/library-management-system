@@ -5,7 +5,7 @@ using library_management.Services.IO;
 using library_management.Services.Library;
 
 using var dbContext = new LibraryContext();
-dbContext.Database.EnsureDeleted();
+// dbContext.Database.EnsureDeleted();
 dbContext.Database.EnsureCreated();
 
 try
