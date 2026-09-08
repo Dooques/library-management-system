@@ -1,5 +1,5 @@
-﻿using library_management.Services.IO;
-using library_management.Services.Library;
+﻿using library_management.Model;
+using library_management.Services.IO;
 
 namespace library_management.Services.Library;
 
@@ -151,8 +151,8 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
             
             if (confirmed.Contains("yes", StringComparison.OrdinalIgnoreCase))
             {
-                OutputWriter.Delete.DeleteBookConfirmed(book.Title, book.Author);
-                _libraryService.DeleteBook(book);
+                outputWriter.Delete.DeleteBookConfirmed(book.Title, book.Author);
+                libraryService.DeleteBook(book);
                 Console.ReadLine();
                 deleting = false;
             }
@@ -168,9 +168,12 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
         outputWriter.Welcome.WelcomeMessage();
         var title = outputWriter.Borrow.BorrowBookPrompt();
         if (CheckForExit(title)) return;
-        
-        var book = _libraryService.FetchBook(title);
-        if (book == null)
+        Book book;
+        try
+        {
+            book = libraryService.FetchBook(title);
+        }
+        catch(Exception e)
         {
             outputWriter.ErrorResponse.BookNotFound(title);
             return;
