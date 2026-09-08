@@ -24,11 +24,13 @@ public class Book
 
     public void BorrowBook()
     {
+        if (IsBorrowed) throw new Exception("Book already borrowed");
         IsBorrowed = true;
     }
     
     public void ReturnBook()
     {
+        if (!IsBorrowed) throw new Exception("Book is still available");
         IsBorrowed = false;
     }
 
