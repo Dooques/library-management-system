@@ -55,13 +55,14 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
             }
         }
     }
-    public void Welcome()
+
+    private void Welcome()
     {
         outputWriter.Welcome.WelcomeMessage();
         outputWriter.Welcome.MenuOptions();
     }
-    
-    public void SearchBooks()
+
+    private void SearchBooks()
     {
         outputWriter.Welcome.WelcomeMessage();
         var type = outputWriter.Search.SearchByPrompt();
@@ -85,14 +86,14 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
         outputWriter.ReturnToMenu();
     }
 
-    public void ViewBooks()
+    private void ViewBooks()
     {
         outputWriter.Welcome.WelcomeMessage();
         outputWriter.View.ViewBooks(libraryService.GetBooks());
         outputWriter.ReturnToMenu();
     }
-    
-    public void AddBook()
+
+    private void AddBook()
     {
         outputWriter.Add.AddBookBegin();
         var adding = true;
@@ -129,8 +130,8 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
         }
         outputWriter.ReturnToMenu();
     }
-    
-    public void DeleteBook()
+
+    private void DeleteBook()
     {
         outputWriter.Welcome.WelcomeMessage();
         var deleting = true;
@@ -162,8 +163,8 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
             }
         }
     }
-    
-    public void BorrowBook()
+
+    private void BorrowBook()
     {
         outputWriter.Welcome.WelcomeMessage();
         var title = outputWriter.Borrow.BorrowBookPrompt();
@@ -192,8 +193,8 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
         
         outputWriter.ReturnToMenu();
     }
-    
-    public void ReturnBook()
+
+    private void ReturnBook()
     {
         outputWriter.Welcome.WelcomeMessage();
         var title = outputWriter.Return.ReturnBookPrompt();
