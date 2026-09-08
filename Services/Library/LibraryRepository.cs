@@ -29,6 +29,7 @@ public class LibraryRepository(LibraryContext books) : ILibraryRepository
 
     public Book AddBook(Book book)
     {
+        if (books.Books.Any(b => b.Title == book.Title && b.Author == book.Author)) throw new Exception("Book already exists");
         books.Books.Add(book);
         books.SaveChanges();
         return book;
