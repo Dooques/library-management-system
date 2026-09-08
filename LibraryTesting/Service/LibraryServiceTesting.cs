@@ -169,6 +169,9 @@ public class LibraryServiceTesting
         var borrowedBook = _booklist[0];
         borrowedBook.BorrowBook();
         
+        _mockLibraryRepo.Setup(x => 
+            x.BorrowBook(borrowedBook)).Throws(new Exception("Book already borrowed"));
+        
         Assert.Throws<Exception>(() => _libraryService.BorrowBook(borrowedBook));
     }
     
@@ -180,11 +183,13 @@ public class LibraryServiceTesting
         
         var returnedBook = _booklist[0];
         returnedBook.ReturnBook();
+        Console.WriteLine("returned book: " + returnedBook);
         
         _mockLibraryRepo.Setup(x => 
             x.ReturnBook(borrowedBook)).Returns(returnedBook);
         
         var book = _libraryService.ReturnBook(borrowedBook);
+        Console.WriteLine($"result: " + book);
         Assert.That(book, Is.EqualTo(returnedBook));
         Assert.That(book.IsBorrowed, Is.False);
     }
@@ -192,8 +197,8 @@ public class LibraryServiceTesting
     [Test]
     public void ReturnBook_ValidBook_ReturnFailure()
     {
-        var borrowedBook = new Book("Dune", "Frank Herbert");
         var availableBook = _booklist[0];
+        Console.WriteLine("Available book: " + availableBook);
         
         _mockLibraryRepo.Setup(x => 
             x.ReturnBook(availableBook)).Throws(new Exception("Book is still available"));
