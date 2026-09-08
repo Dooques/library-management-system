@@ -5,12 +5,12 @@ namespace library_management.Services.Library;
 public interface ILibraryService
 {
     public List<Book> GetBooks();
-    public Book? FetchBook(string title);
+    public Book FetchBook(string title);
     public List<Book> SearchBooks(string type, string searchTerm);
     public Book AddBook(string title, string author);
     public Book DeleteBook(Book book);
-    public Book? BorrowBook(Book book);
-    public Book? ReturnBook(Book book);
+    public Book BorrowBook(Book book);
+    public Book ReturnBook(Book book);
 }
 
 public class LibraryService(ILibraryRepository libraryRepository): ILibraryService
@@ -20,16 +20,9 @@ public class LibraryService(ILibraryRepository libraryRepository): ILibraryServi
         return libraryRepository.GetBooks();
     }
 
-    public Book? FetchBook(string title)
+    public Book FetchBook(string title)
     {
-        try
-        {
-            return libraryRepository.FetchBook(title);
-        }
-        catch (Exception)
-        {
-            return null;
-        }
+        return libraryRepository.FetchBook(title);
     }
     
     public List<Book> SearchBooks(string type, string searchTerm)
@@ -68,18 +61,15 @@ public class LibraryService(ILibraryRepository libraryRepository): ILibraryServi
         return book;
     }
 
-    public Book? BorrowBook(Book book)
+    public Book BorrowBook(Book book)
     {
-        if (book.IsBorrowed) throw new Exception("Book already borrowed");
-        
-        var borrowedBook = libraryRepository.BorrowBook(book.Title);
+        var borrowedBook = libraryRepository.BorrowBook(book);
         return borrowedBook;
     }
 
-    public Book? ReturnBook(Book book)
+    public Book ReturnBook(Book book)
     {
-        if (!book.IsBorrowed) throw new Exception("Book not borrowed");
-        var returnedBook = libraryRepository.ReturnBook(book.Title);
+        var returnedBook = libraryRepository.ReturnBook(book);
         return returnedBook;
     }
 }
