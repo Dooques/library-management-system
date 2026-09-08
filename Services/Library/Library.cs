@@ -3,7 +3,7 @@ using library_management.Services.Library;
 
 namespace library_management.Services.Library;
 
-public class Library(ILibraryService libraryService)
+public class Library(ILibraryService libraryService, OutputWriter outputWriter)
 {
     public void Run()
     {
@@ -57,96 +57,96 @@ public class Library(ILibraryService libraryService)
     }
     public void Welcome()
     {
-        OutputWriter.Welcome.WelcomeMessage();
-        OutputWriter.Welcome.MenuOptions();
+        outputWriter.Welcome.WelcomeMessage();
+        outputWriter.Welcome.MenuOptions();
     }
     
     public void SearchBooks()
     {
-        OutputWriter.Welcome.WelcomeMessage();
-        var type = OutputWriter.Search.SearchByPrompt();
+        outputWriter.Welcome.WelcomeMessage();
+        var type = outputWriter.Search.SearchByPrompt();
         if (CheckForExit(type)) return;
         
         if (!type.Contains("title", StringComparison.OrdinalIgnoreCase)
             && !type.Contains("author", StringComparison.OrdinalIgnoreCase))
             throw new Exception("Unknown search type: " + type);
         
-        var searchTerm = OutputWriter.Search.SearchTerm();
+        var searchTerm = outputWriter.Search.SearchTerm();
         if (CheckForExit(searchTerm)) return;
         
-        var foundBooks = _libraryService.SearchBooks(type, searchTerm);
+        var foundBooks = libraryService.SearchBooks(type, searchTerm);
         
         if (foundBooks.Count != 0)
         {
-            OutputWriter.Search.SearchResults(foundBooks);
+            outputWriter.Search.SearchResults(foundBooks);
         } 
-        else OutputWriter.Search.SearchResultsEmpty();
+        else outputWriter.Search.SearchResultsEmpty();
         
-        OutputWriter.ReturnToMenu();
+        outputWriter.ReturnToMenu();
     }
 
     public void ViewBooks()
     {
-        OutputWriter.Welcome.WelcomeMessage();
-        OutputWriter.View.ViewBooks(_libraryService.GetBooks());
-        OutputWriter.ReturnToMenu();
+        outputWriter.Welcome.WelcomeMessage();
+        outputWriter.View.ViewBooks(libraryService.GetBooks());
+        outputWriter.ReturnToMenu();
     }
     
     public void AddBook()
     {
-        OutputWriter.Add.AddBookBegin();
+        outputWriter.Add.AddBookBegin();
         var adding = true;
         while (adding)
         {
-            var title = OutputWriter.Add.AddBookTitlePrompt();
+            var title = outputWriter.Add.AddBookTitlePrompt();
             if (CheckForExit(title)) return;
-            var author = OutputWriter.Add.AddBookAuthorPrompt();
+            var author = outputWriter.Add.AddBookAuthorPrompt();
             if (CheckForExit(title)) return;
 
-            var book = _libraryService.FetchBook(title);
+            var book = libraryService.FetchBook(title);
 
             if (book != null && book.Author.Contains(author))
             {
-                var bookFoundTryAgain = OutputWriter.Add.BookAlreadyInLibrary(book.Title, book.Author);
+                var bookFoundTryAgain = outputWriter.Add.BookAlreadyInLibrary(book.Title, book.Author);
                 if (bookFoundTryAgain.Contains("yes", StringComparison.OrdinalIgnoreCase)) continue;
                 return;
             }
 
-            var confirmation = OutputWriter.Add.AddBookConfirmationPrompt(title, author);
+            var confirmation = outputWriter.Add.AddBookConfirmationPrompt(title, author);
             if (CheckForExit(title)) return;
             
             if (string.Equals(confirmation, "yes", StringComparison.OrdinalIgnoreCase))
             {
-                OutputWriter.Add.AddBookConfirmed(title, author);
-                _libraryService.AddBook(title, author);
+                outputWriter.Add.AddBookConfirmed(title, author);
+                libraryService.AddBook(title, author);
                 adding = false;
             }
             else
             {
-                OutputWriter.Add.AddBookContinuePrompt();
+                outputWriter.Add.AddBookContinuePrompt();
                 if (CheckForExit(title)) return;
             }
         }
-        OutputWriter.ReturnToMenu();
+        outputWriter.ReturnToMenu();
     }
     
     public void DeleteBook()
     {
-        OutputWriter.Welcome.WelcomeMessage();
+        outputWriter.Welcome.WelcomeMessage();
         var deleting = true;
         while (deleting)
         {
-            var title = OutputWriter.Delete.DeleteTitlePrompt();
+            var title = outputWriter.Delete.DeleteTitlePrompt();
             if (CheckForExit(title)) return;
             
-            var book = _libraryService.FetchBook(title);
+            var book = libraryService.FetchBook(title);
             if (book == null)
             {
-                OutputWriter.ErrorResponses.BookNotFound(title);
+                outputWriter.ErrorResponse.BookNotFound(title);
                 return;
             }
             
-            var confirmed = OutputWriter.Delete.DeleteTitleConfirmationPrompt(book.Title, book.Author);
+            var confirmed = outputWriter.Delete.DeleteTitleConfirmationPrompt(book.Title, book.Author);
             if (CheckForExit(title)) return;
             
             if (confirmed.Contains("yes", StringComparison.OrdinalIgnoreCase))
@@ -158,63 +158,58 @@ public class Library(ILibraryService libraryService)
             }
             else
             {
-                OutputWriter.NotConfirmed();
+                outputWriter.NotConfirmed();
             }
         }
     }
     
     public void BorrowBook()
     {
-        OutputWriter.Welcome.WelcomeMessage();
-        var title = OutputWriter.Borrow.BorrowBookPrompt();
+        outputWriter.Welcome.WelcomeMessage();
+        var title = outputWriter.Borrow.BorrowBookPrompt();
         if (CheckForExit(title)) return;
         
         var book = _libraryService.FetchBook(title);
         if (book == null)
         {
-            OutputWriter.ErrorResponses.BookNotFound(title);
+            outputWriter.ErrorResponse.BookNotFound(title);
             return;
         }
         
-        var confirmed = OutputWriter.Borrow.BorrowBookConfirmationPrompt(book.Title, book.Author);
+        var confirmed = outputWriter.Borrow.BorrowBookConfirmationPrompt(book.Title, book.Author);
         if (CheckForExit(title)) return;
 
         if (confirmed.Contains("yes", StringComparison.OrdinalIgnoreCase))
         {
-            OutputWriter.Borrow.BorrowBookConfirmed(title, book.Author);
-            _libraryService.BorrowBook(book);
+            outputWriter.Borrow.BorrowBookConfirmed(title, book.Author);
+            libraryService.BorrowBook(book);
         }
         else 
-            OutputWriter.NotConfirmed();
+            outputWriter.NotConfirmed();
         
-        OutputWriter.ReturnToMenu();
+        outputWriter.ReturnToMenu();
     }
     
     public void ReturnBook()
     {
-        OutputWriter.Welcome.WelcomeMessage();
-        var title = OutputWriter.Return.ReturnBookPrompt();
+        outputWriter.Welcome.WelcomeMessage();
+        var title = outputWriter.Return.ReturnBookPrompt();
         if (CheckForExit(title)) return;
         
-        var book = _libraryService.FetchBook(title);
-        if (book == null)
-        {
-            OutputWriter.ErrorResponses.BookNotFound(title);
-            return;
-        }
-        
-        var confirmed = OutputWriter.Return.ReturnBookConfirmationPrompt(book.Title, book.Author);
+        var book = libraryService.FetchBook(title);
+
+        var confirmed = outputWriter.Return.ReturnBookConfirmationPrompt(book.Title, book.Author);
         if (CheckForExit(title)) return;
         
         if (confirmed.Contains("yes", StringComparison.OrdinalIgnoreCase))
         {
-            OutputWriter.Return.ReturnBookConfirmed(book.Title, book.Author);
-            _libraryService.ReturnBook(book);
+            outputWriter.Return.ReturnBookConfirmed(book.Title, book.Author);
+            libraryService.ReturnBook(book);
         }
         else
-            OutputWriter.NotConfirmed();
+            outputWriter.NotConfirmed();
         
-        OutputWriter.ReturnToMenu();
+        outputWriter.ReturnToMenu();
     }
     
     private static bool CheckForExit(string text)
