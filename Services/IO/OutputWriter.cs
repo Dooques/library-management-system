@@ -3,11 +3,51 @@ using library_management.Model;
 
 namespace library_management.Services.IO;
 
-public static class OutputWriter
+public class OutputWriter(
+    WelcomeMessages welcome,
+    ErrorResponseMessages errorResponse,
+    DeleteMessages delete,
+    AddMessages add,
+    SearchMessages search,
+    ViewMessages view,
+    BorrowMessages borrow,
+    ReturnMessages @return)
 {
-    public static class Welcome
+    public readonly WelcomeMessages Welcome = welcome;
+    public readonly ViewMessages View = view;
+    public readonly SearchMessages Search = search;
+    public readonly AddMessages Add = add;
+    public readonly DeleteMessages Delete = delete;
+    public readonly BorrowMessages Borrow = borrow;
+    public readonly ReturnMessages Return = @return;
+    public readonly ErrorResponseMessages ErrorResponse = errorResponse;
+
+    public void NotConfirmed()
     {
-        public static void WelcomeMessage()
+        Console.WriteLine(
+            """
+
+            Let's start over...
+            """
+        );
+        Console.ReadLine();
+    }
+    
+    public void ReturnToMenu()
+    {
+        Console.WriteLine(
+            """
+
+            Press Enter to return to the menu:
+            """
+        );
+        Console.ReadLine(); 
+    } 
+}
+
+public class WelcomeMessages
+    {
+        public void WelcomeMessage()
         {
             Console.Clear();
             Console.WriteLine(
@@ -20,7 +60,7 @@ public static class OutputWriter
             );
         }
 
-        public static void MenuOptions()
+        public void MenuOptions()
         {
             Console.WriteLine(
                 """
@@ -38,334 +78,313 @@ public static class OutputWriter
         }
     }
 
-    public static class View
-    {
-        public static void ViewBooks(List<Book> books)
-        {
-            Console.WriteLine(
-                """
-                
-                Here are the currently available books:
-                """
-                );
-            foreach (var book in books)
-            {
-                Console.WriteLine("    " + book);
-            }
-        }
-    }
-
-    public static class Search
-    {
-        public static string SearchByPrompt()
-        {
-            Console.WriteLine(
-                """
-                
-                Would you like to search by title or author?
-                """
-            );
-            return InputReader.Read();
-        }
-
-        public static string SearchTerm()
-        {
-            Console.WriteLine(
-                """
-                
-                Enter your search:
-                """
-            );
-            return InputReader.Read();
-        }
-
-        public static void SearchResults(List<Book> books)
-        {
-            Console.WriteLine(
-                """
-                
-                Here is what we found:
-                """
-                );
-            foreach (var book in books)
-            {
-                Console.WriteLine("    " + book);
-            }
-        }
-
-        public static void SearchResultsEmpty()
-        {
-            Console.WriteLine(
-                """
-                
-                No results found.
-                """
-            );
-        } 
-    }
-    
-    public static class Add 
-    { 
-        public static void AddBookBegin() 
-        { 
-            Console.WriteLine(
-            """
-
-            You have selected "Add Book".
-            """
-            );
-        }
-
-        public static string AddBookTitlePrompt()
-        {
-            Console.WriteLine(
-                """
-
-                Please enter the title of the book you would like to add.
-                """
-            );
-
-            Console.Write("    ");
-            return InputReader.Read();
-        }
-
-        public static string AddBookAuthorPrompt()
-        {
-            Console.WriteLine(
-                """
-
-                Thank you, now enter the author of this book:
-                """
-            );
-
-            Console.Write("    ");
-            return InputReader.Read();
-        }
-
-        public static string AddBookConfirmationPrompt(string bookTitle, string bookAuthor)
-        {
-            Console.WriteLine(
-                $"""
-
-                 You have given the following information:
-                    Title: {bookTitle}
-                    Author: {bookAuthor}
-                         
-                 Is this correct?
-                 Type Yes or No:
-                 """
-            );
-
-            Console.Write("    ");
-            return InputReader.Read();
-        }
-
-        public static void AddBookConfirmed(string bookTitle, string bookAuthor)
-        {
-            Console.WriteLine(
-                $"""
-
-                 {bookTitle} by {bookAuthor} has been added to the library.
-                 """
-            );
-        }
-
-        public static string BookAlreadyInLibrary(string bookTitle, string bookAuthor)
-        {
-            Console.WriteLine(
-                $"""
-                
-                The book {bookTitle} by {bookAuthor} is already in the library, would you like to add something else?
-                Type Yes or No:
-                """
-                );
-            
-            Console.Write("    ");
-            return InputReader.Read();
-        }
-
-        public static string AddBookContinuePrompt()
-        {
-            Console.WriteLine(
-                """
-
-                Would you like to retry entering the book information?
-                """
-            );
-
-            Console.Write("    ");
-            return InputReader.Read();
-        }
-
-    }
-
-    public static class Delete
-    {
-        public static string DeleteTitlePrompt()
-        {
-            Console.WriteLine(
-                """
-                
-                Enter the title of the book to delete:
-                """
-                );
-            
-            Console.Write("    ");
-            return InputReader.Read();
-        }
-
-        public static string DeleteTitleConfirmationPrompt(string title, string author)
-        {
-            Console.WriteLine(
-                $"""
-                
-                Are you sure you want to delete {title} by {author}?
-                """
-                );
-            
-            Console.Write("    ");
-            return InputReader.Read();
-        }
-
-        public static void DeleteBookConfirmed(string title, string author)
-        {
-            Console.WriteLine(
-                $"""
-                
-                {title}  by {author} has been deleted.
-                """
-            );
-        }
-
-    }
-
-    public static class Borrow
-    {
-        public static string BorrowBookPrompt()
-        {
-            Console.WriteLine(
-                """
-                
-                What is the title of the book are you borrowing?
-                """
-            );
-            
-            Console.Write("    ");
-            return InputReader.Read();
-        }
-
-        public static string BorrowBookConfirmationPrompt(string bookTitle, string bookAuthor)
-        {
-            Console.WriteLine(
-                $"""
-                
-                Are you trying to borrow {bookTitle} by {bookAuthor}?
-                """
-                );
-            
-            Console.Write("    ");
-            return InputReader.Read();
-        }
-
-        public static void BorrowBookConfirmed(string bookTitle, string bookAuthor)
-        {
-            Console.WriteLine(
-                $"""
-                
-                {bookTitle} by {bookAuthor} has been borrowed.
-                """
-                );
-        }
-    }
-
-    public static class Return
-    {
-        public static string ReturnBookPrompt()
-        {
-            Console.WriteLine(
-                """
-
-                What is the title of the book you are returning?
-                """
-            );
-            
-            Console.Write("    ");
-            return InputReader.Read();
-        }
-
-        public static string ReturnBookConfirmationPrompt(string bookTitle, string bookAuthor)
-        {
-            Console.WriteLine(
-                $"""
-
-                 Are you trying to return {bookTitle} by {bookAuthor}?
-                 """
-            );
-            
-            Console.Write("    ");
-            return InputReader.Read();
-        }
-
-        public static void ReturnBookConfirmed(string bookTitle, string bookAuthor)
-        {
-            Console.WriteLine(
-                $"""
-
-                 {bookTitle} by {bookAuthor} has been returned.
-                 """
-            );
-        }
-        
-        
-    }
-
-    public static class ErrorResponses
-    {
-        public static void HandleError(Exception e)
-        {
-            Console.WriteLine(
-                $"""
-                
-                Looks like something went wrong:
-                    {e.Message}
-                    
-                Press enter to start over:
-                """
-                );
-            
-            Console.ReadLine();
-        }
-
-        public static void BookNotFound(string title)
-        {
-            Console.WriteLine(
-                $"""
-                
-                {title} was not found, press enter to return to the menu:
-                """
-            );
-            Console.ReadLine();
-        }
-    }
-
-    public static void NotConfirmed()
+public class ViewMessages
+{
+    public  void ViewBooks(List<Book> books)
     {
         Console.WriteLine(
             """
-
-            Let's start over...
+            
+            Here are the currently available books:
             """
-        );
+            );
+        foreach (var book in books)
+        {
+            Console.WriteLine("    " + book);
+        }
     }
-    
-    public static void ReturnToMenu()
+}
+
+public  class SearchMessages
+{
+    public  string SearchByPrompt()
     {
         Console.WriteLine(
             """
-
-            Press Enter to return to the menu:
+            
+            Would you like to search by title or author?
             """
         );
-        Console.ReadLine(); 
+        return InputReader.Read();
+    }
+
+    public  string SearchTerm()
+    {
+        Console.WriteLine(
+            """
+            
+            Enter your search:
+            """
+        );
+        return InputReader.Read();
+    }
+
+    public  void SearchResults(List<Book> books)
+    {
+        Console.WriteLine(
+            """
+            
+            Here is what we found:
+            """
+            );
+        foreach (var book in books)
+        {
+            Console.WriteLine("    " + book);
+        }
+    }
+
+    public  void SearchResultsEmpty()
+    {
+        Console.WriteLine(
+            """
+            
+            No results found.
+            """
+        );
     } 
 }
+
+public class AddMessages
+{ 
+    public  void AddBookBegin() 
+    { 
+        Console.WriteLine(
+        """
+
+        You have selected "Add Book".
+        """
+        );
+    }
+
+    public  string AddBookTitlePrompt()
+    {
+        Console.WriteLine(
+            """
+
+            Please enter the title of the book you would like to add.
+            """
+        );
+
+        Console.Write("    ");
+        return InputReader.Read();
+    }
+
+    public string AddBookAuthorPrompt()
+    {
+        Console.WriteLine(
+            """
+
+            Thank you, now enter the author of this book:
+            """
+        );
+
+        Console.Write("    ");
+        return InputReader.Read();
+    }
+
+    public  string AddBookConfirmationPrompt(string bookTitle, string bookAuthor)
+    {
+        Console.WriteLine(
+            $"""
+
+             You have given the following information:
+                Title: {bookTitle}
+                Author: {bookAuthor}
+                     
+             Is this correct?
+             Type Yes or No:
+             """
+        );
+
+        Console.Write("    ");
+        return InputReader.Read();
+    }
+
+    public  void AddBookConfirmed(string bookTitle, string bookAuthor)
+    {
+        Console.WriteLine(
+            $"""
+
+             {bookTitle} by {bookAuthor} has been added to the library.
+             """
+        );
+    }
+
+    public  string BookAlreadyInLibrary(string bookTitle, string bookAuthor)
+    {
+        Console.WriteLine(
+            $"""
+            
+            The book {bookTitle} by {bookAuthor} is already in the library, would you like to add something else?
+            Type Yes or No:
+            """
+            );
+        
+        Console.Write("    ");
+        return InputReader.Read();
+    }
+
+    public  string AddBookContinuePrompt()
+    {
+        Console.WriteLine(
+            """
+
+            Would you like to retry entering the book information?
+            """
+        );
+
+        Console.Write("    ");
+        return InputReader.Read();
+    }
+
+}
+
+public  class DeleteMessages
+{
+    public  string DeleteTitlePrompt()
+    {
+        Console.WriteLine(
+            """
+            
+            Enter the title of the book to delete:
+            """
+            );
+        
+        Console.Write("    ");
+        return InputReader.Read();
+    }
+
+    public  string DeleteTitleConfirmationPrompt(string title, string author)
+    {
+        Console.WriteLine(
+            $"""
+            
+            Are you sure you want to delete {title} by {author}?
+            """
+            );
+        
+        Console.Write("    ");
+        return InputReader.Read();
+    }
+
+    public  void DeleteBookConfirmed(string title, string author)
+    {
+        Console.WriteLine(
+            $"""
+            
+            {title}  by {author} has been deleted.
+            """
+        );
+    }
+
+}
+
+public  class BorrowMessages
+{
+    public  string BorrowBookPrompt()
+    {
+        Console.WriteLine(
+            """
+            
+            What is the title of the book are you borrowing?
+            """
+        );
+        
+        Console.Write("    ");
+        return InputReader.Read();
+    }
+
+    public  string BorrowBookConfirmationPrompt(string bookTitle, string bookAuthor)
+    {
+        Console.WriteLine(
+            $"""
+            
+            Are you trying to borrow {bookTitle} by {bookAuthor}?
+            """
+            );
+        
+        Console.Write("    ");
+        return InputReader.Read();
+    }
+
+    public  void BorrowBookConfirmed(string bookTitle, string bookAuthor)
+    {
+        Console.WriteLine(
+            $"""
+            
+            {bookTitle} by {bookAuthor} has been borrowed.
+            """
+            );
+    }
+}
+
+public  class ReturnMessages
+{
+    public  string ReturnBookPrompt()
+    {
+        Console.WriteLine(
+            """
+
+            What is the title of the book you are returning?
+            """
+        );
+        
+        Console.Write("    ");
+        return InputReader.Read();
+    }
+
+    public  string ReturnBookConfirmationPrompt(string bookTitle, string bookAuthor)
+    {
+        Console.WriteLine(
+            $"""
+
+             Are you trying to return {bookTitle} by {bookAuthor}?
+             """
+        );
+        
+        Console.Write("    ");
+        return InputReader.Read();
+    }
+
+    public  void ReturnBookConfirmed(string bookTitle, string bookAuthor)
+    {
+        Console.WriteLine(
+            $"""
+
+             {bookTitle} by {bookAuthor} has been returned.
+             """
+        );
+    }
+    
+    
+}
+
+public  class ErrorResponseMessages
+{
+    public  void HandleError(Exception e)
+    {
+        Console.WriteLine(
+            $"""
+            
+            Looks like something went wrong:
+                {e.Message}
+                
+            Press enter to start over:
+            """
+            );
+        
+        Console.ReadLine();
+    }
+
+    public  void BookNotFound(string title)
+    {
+        Console.WriteLine(
+            $"""
+            
+            {title} was not found, press enter to return to the menu:
+            """
+        );
+        Console.ReadLine();
+    }
+}
+    

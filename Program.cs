@@ -26,11 +26,17 @@ catch (Exception e)
 
 var libraryRepo = new LibraryRepository(dbContext);
 var libraryService = new LibraryService(libraryRepo);
-var library = new Library(libraryService);
+var outputWriter = new OutputWriter(
+    new WelcomeMessages(), 
+    new ErrorResponseMessages(),
+    new DeleteMessages(), 
+    new AddMessages(), 
+    new SearchMessages(), 
+    new ViewMessages(),
+    new BorrowMessages(),
+    new ReturnMessages()
+);
 
-var running = true;
-while (running)
-{ 
-    library.Welcome();
+var library = new Library(libraryService, outputWriter);
 
 library.Run();
