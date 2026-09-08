@@ -3,6 +3,8 @@ using library_management.Model;
 
 namespace library_management.Services.IO;
 
+public interface IOutputWriter { }
+
 public class OutputWriter(
     WelcomeMessages welcome,
     ErrorResponseMessages errorResponse,
@@ -11,7 +13,8 @@ public class OutputWriter(
     SearchMessages search,
     ViewMessages view,
     BorrowMessages borrow,
-    ReturnMessages @return)
+    ReturnMessages @return
+    ): IOutputWriter
 {
     public readonly WelcomeMessages Welcome = welcome;
     public readonly ViewMessages View = view;
@@ -47,6 +50,7 @@ public class OutputWriter(
 
 public class WelcomeMessages
     {
+        private readonly  InputReader _inputReader = new();
         public void WelcomeMessage()
         {
             Console.Clear();
@@ -58,9 +62,10 @@ public class WelcomeMessages
                 Type 'exit' or 'quit' to close the application at any time.
                 """
             );
+            
         }
 
-        public void MenuOptions()
+        public string MenuOptions()
         {
             Console.WriteLine(
                 """
@@ -98,8 +103,9 @@ public class ViewMessages
     }
 }
 
-public  class SearchMessages
+public  class SearchMessages()
 {
+    private readonly InputReader _inputReader = new InputReader();
     public string TypePrompt()
     {
         Console.WriteLine(
@@ -108,7 +114,7 @@ public  class SearchMessages
             Would you like to search by title or author?
             """
         );
-        return InputReader.Read();
+        return _inputReader.Read();
     }
 
     public string SearchTerm()
@@ -119,7 +125,7 @@ public  class SearchMessages
             Enter your search:
             """
         );
-        return InputReader.Read();
+        return _inputReader.Read();
     }
 
     public void SearchResults(List<Book> books)
@@ -147,8 +153,9 @@ public  class SearchMessages
     } 
 }
 
-public class AddMessages
-{ 
+public class AddMessages()
+{
+    private readonly InputReader _inputReader = new InputReader();
     public  void Begin() 
     { 
         Console.WriteLine(
@@ -169,7 +176,7 @@ public class AddMessages
         );
 
         Console.Write("    ");
-        return InputReader.Read();
+        return _inputReader.Read();
     }
 
     public string AuthorPrompt()
@@ -182,7 +189,7 @@ public class AddMessages
         );
 
         Console.Write("    ");
-        return InputReader.Read();
+        return _inputReader.Read();
     }
 
     public  string ConfirmationPrompt(string bookTitle, string bookAuthor)
@@ -200,7 +207,7 @@ public class AddMessages
         );
 
         Console.Write("    ");
-        return InputReader.Read();
+        return _inputReader.Read();
     }
 
     public void NoDuplicateFound()
@@ -235,7 +242,7 @@ public class AddMessages
             );
         
         Console.Write("    ");
-        return InputReader.Read();
+        return _inputReader.Read();
     }
 
     public  string AddBookContinuePrompt()
@@ -248,13 +255,14 @@ public class AddMessages
         );
 
         Console.Write("    ");
-        return InputReader.Read();
+        return _inputReader.Read();
     }
 
 }
 
-public  class DeleteMessages
+public  class DeleteMessages()
 {
+    private readonly InputReader _inputReader = new InputReader();
     public  string TitlePrompt()
     {
         Console.WriteLine(
@@ -265,7 +273,7 @@ public  class DeleteMessages
             );
         
         Console.Write("    ");
-        return InputReader.Read();
+        return _inputReader.Read();
     }
 
     public  string TitleConfirmationPrompt(string title, string author)
@@ -278,7 +286,7 @@ public  class DeleteMessages
             );
         
         Console.Write("    ");
-        return InputReader.Read();
+        return _inputReader.Read();
     }
 
     public  void BookConfirmed(string title, string author)
@@ -293,8 +301,9 @@ public  class DeleteMessages
 
 }
 
-public  class BorrowMessages
+public  class BorrowMessages()
 {
+    private readonly InputReader _inputReader = new InputReader();
     public  string TitlePrompt()
     {
         Console.WriteLine(
@@ -305,7 +314,7 @@ public  class BorrowMessages
         );
         
         Console.Write("    ");
-        return InputReader.Read();
+        return _inputReader.Read();
     }
 
     public  string ConfirmationPrompt(string bookTitle, string bookAuthor)
@@ -318,7 +327,7 @@ public  class BorrowMessages
             );
         
         Console.Write("    ");
-        return InputReader.Read();
+        return _inputReader.Read();
     }
 
     public  void Confirmed(string bookTitle, string bookAuthor)
@@ -332,8 +341,9 @@ public  class BorrowMessages
     }
 }
 
-public  class ReturnMessages
+public  class ReturnMessages()
 {
+    private readonly  InputReader _inputReader = new InputReader();
     public  string BookPrompt()
     {
         Console.WriteLine(
@@ -344,7 +354,7 @@ public  class ReturnMessages
         );
         
         Console.Write("    ");
-        return InputReader.Read();
+        return _inputReader.Read();
     }
 
     public  string ConfirmationPrompt(string bookTitle, string bookAuthor)
@@ -357,7 +367,7 @@ public  class ReturnMessages
         );
         
         Console.Write("    ");
-        return InputReader.Read();
+        return _inputReader.Read();
     }
 
     public  void Confirmed(string bookTitle, string bookAuthor)
