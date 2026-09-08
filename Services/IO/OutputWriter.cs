@@ -3,7 +3,19 @@ using library_management.Model;
 
 namespace library_management.Services.IO;
 
-public interface IOutputWriter { }
+public interface IOutputWriter
+{
+    public WelcomeMessages Welcome { get; }
+    public ViewMessages View { get; }
+    public SearchMessages Search { get; }
+    public DeleteMessages Delete { get; }
+    public BorrowMessages Borrow { get; }
+    public ReturnMessages Return { get; }
+    public ErrorResponseMessages ErrorResponse { get; }
+
+    public void NotConfirmed();
+    public void  ReturnToMenu();
+}
 
 public class OutputWriter(
     WelcomeMessages welcome,
@@ -16,14 +28,14 @@ public class OutputWriter(
     ReturnMessages @return
     ): IOutputWriter
 {
-    public readonly WelcomeMessages Welcome = welcome;
-    public readonly ViewMessages View = view;
-    public readonly SearchMessages Search = search;
-    public readonly AddMessages Add = add;
-    public readonly DeleteMessages Delete = delete;
-    public readonly BorrowMessages Borrow = borrow;
-    public readonly ReturnMessages Return = @return;
-    public readonly ErrorResponseMessages ErrorResponse = errorResponse;
+    public WelcomeMessages Welcome { get; } = welcome;
+    public ViewMessages View { get; } = view;
+    public SearchMessages Search { get; } = search;
+    public AddMessages Add { get; }= add;
+    public DeleteMessages Delete { get; }= delete;
+    public BorrowMessages Borrow { get; }= borrow;
+    public ReturnMessages Return { get; }= @return;
+    public ErrorResponseMessages ErrorResponse { get; }= errorResponse;
 
     public void NotConfirmed()
     {
