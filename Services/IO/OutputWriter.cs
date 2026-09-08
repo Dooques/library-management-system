@@ -80,7 +80,7 @@ public class WelcomeMessages
 
 public class ViewMessages
 {
-    public  void ViewBooks(List<Book> books)
+    public void List(List<Book> books)
     {
         Console.WriteLine(
             """
@@ -97,7 +97,7 @@ public class ViewMessages
 
 public  class SearchMessages
 {
-    public  string SearchByPrompt()
+    public string TypePrompt()
     {
         Console.WriteLine(
             """
@@ -108,7 +108,7 @@ public  class SearchMessages
         return InputReader.Read();
     }
 
-    public  string SearchTerm()
+    public string SearchTerm()
     {
         Console.WriteLine(
             """
@@ -119,7 +119,7 @@ public  class SearchMessages
         return InputReader.Read();
     }
 
-    public  void SearchResults(List<Book> books)
+    public void SearchResults(List<Book> books)
     {
         Console.WriteLine(
             """
@@ -133,7 +133,7 @@ public  class SearchMessages
         }
     }
 
-    public  void SearchResultsEmpty()
+    public void ResultsEmpty()
     {
         Console.WriteLine(
             """
@@ -252,7 +252,7 @@ public class AddMessages
 
 public  class DeleteMessages
 {
-    public  string DeleteTitlePrompt()
+    public  string TitlePrompt()
     {
         Console.WriteLine(
             """
@@ -265,7 +265,7 @@ public  class DeleteMessages
         return InputReader.Read();
     }
 
-    public  string DeleteTitleConfirmationPrompt(string title, string author)
+    public  string TitleConfirmationPrompt(string title, string author)
     {
         Console.WriteLine(
             $"""
@@ -278,7 +278,7 @@ public  class DeleteMessages
         return InputReader.Read();
     }
 
-    public  void DeleteBookConfirmed(string title, string author)
+    public  void BookConfirmed(string title, string author)
     {
         Console.WriteLine(
             $"""
@@ -292,7 +292,7 @@ public  class DeleteMessages
 
 public  class BorrowMessages
 {
-    public  string BorrowBookPrompt()
+    public  string TitlePrompt()
     {
         Console.WriteLine(
             """
@@ -305,7 +305,7 @@ public  class BorrowMessages
         return InputReader.Read();
     }
 
-    public  string BorrowBookConfirmationPrompt(string bookTitle, string bookAuthor)
+    public  string ConfirmationPrompt(string bookTitle, string bookAuthor)
     {
         Console.WriteLine(
             $"""
@@ -318,7 +318,7 @@ public  class BorrowMessages
         return InputReader.Read();
     }
 
-    public  void BorrowBookConfirmed(string bookTitle, string bookAuthor)
+    public  void Confirmed(string bookTitle, string bookAuthor)
     {
         Console.WriteLine(
             $"""
@@ -331,7 +331,7 @@ public  class BorrowMessages
 
 public  class ReturnMessages
 {
-    public  string ReturnBookPrompt()
+    public  string BookPrompt()
     {
         Console.WriteLine(
             """
@@ -344,7 +344,7 @@ public  class ReturnMessages
         return InputReader.Read();
     }
 
-    public  string ReturnBookConfirmationPrompt(string bookTitle, string bookAuthor)
+    public  string ConfirmationPrompt(string bookTitle, string bookAuthor)
     {
         Console.WriteLine(
             $"""
@@ -357,7 +357,7 @@ public  class ReturnMessages
         return InputReader.Read();
     }
 
-    public  void ReturnBookConfirmed(string bookTitle, string bookAuthor)
+    public  void Confirmed(string bookTitle, string bookAuthor)
     {
         Console.WriteLine(
             $"""
