@@ -1,7 +1,7 @@
 ﻿using library_management.Services.IO;
 using library_management.Services.Library;
 
-namespace library_management.Model;
+namespace library_management.Services.Library;
 
 public class Library(ILibraryService libraryService)
 {
