@@ -146,7 +146,7 @@ public  class SearchMessages
 
 public class AddMessages
 { 
-    public  void AddBookBegin() 
+    public  void Begin() 
     { 
         Console.WriteLine(
         """
@@ -156,7 +156,7 @@ public class AddMessages
         );
     }
 
-    public  string AddBookTitlePrompt()
+    public  string TitlePrompt()
     {
         Console.WriteLine(
             """
@@ -169,7 +169,7 @@ public class AddMessages
         return InputReader.Read();
     }
 
-    public string AddBookAuthorPrompt()
+    public string AuthorPrompt()
     {
         Console.WriteLine(
             """
@@ -182,7 +182,7 @@ public class AddMessages
         return InputReader.Read();
     }
 
-    public  string AddBookConfirmationPrompt(string bookTitle, string bookAuthor)
+    public  string ConfirmationPrompt(string bookTitle, string bookAuthor)
     {
         Console.WriteLine(
             $"""
@@ -198,6 +198,17 @@ public class AddMessages
 
         Console.Write("    ");
         return InputReader.Read();
+    }
+
+    public void NoDuplicateFound()
+    {
+        Console.WriteLine(
+            """
+            
+            No duplicate found, ok to continue...
+            """
+            );
+        Console.ReadLine();
     }
 
     public  void AddBookConfirmed(string bookTitle, string bookAuthor)
@@ -383,6 +394,17 @@ public  class ErrorResponseMessages
             
             {title} was not found, press enter to return to the menu:
             """
+        );
+        Console.ReadLine();
+    }
+    
+    public  void BookFound(string title)
+    {
+        Console.WriteLine(
+            $"""
+
+             {title} is already in the library, press enter to return to the menu:
+             """
         );
         Console.ReadLine();
     }

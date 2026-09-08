@@ -95,34 +95,32 @@ public class Library(ILibraryService libraryService, OutputWriter outputWriter)
 
     private void AddBook()
     {
-        outputWriter.Add.AddBookBegin();
+        outputWriter.Add.Begin();
         var adding = true;
         while (adding)
         {
-            var title = outputWriter.Add.AddBookTitlePrompt();
+            var title = outputWriter.Add.TitlePrompt();
             if (CheckForExit(title)) return;
-            var author = outputWriter.Add.AddBookAuthorPrompt();
+            var author = outputWriter.Add.AuthorPrompt();
             if (CheckForExit(title)) return;
 
-            Book book;
+            
             try
             {
-                book = libraryService.FetchBook(title);
+                var book = libraryService.FetchBook(title);
+                if (book.Title.Contains(title) && book.Author.Contains(author))
+                {
+                    var bookFoundTryAgain = outputWriter.Add.BookAlreadyInLibrary(book.Title, book.Author);
+                    if (bookFoundTryAgain.Contains("yes", StringComparison.OrdinalIgnoreCase)) continue;
+                    return;
+                }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                outputWriter.ErrorResponse.BookNotFound(title);
-                return;
+                outputWriter.Add.NoDuplicateFound();
             }
 
-            if (book.Author.Contains(author))
-            {
-                var bookFoundTryAgain = outputWriter.Add.BookAlreadyInLibrary(book.Title, book.Author);
-                if (bookFoundTryAgain.Contains("yes", StringComparison.OrdinalIgnoreCase)) continue;
-                return;
-            }
-
-            var confirmation = outputWriter.Add.AddBookConfirmationPrompt(title, author);
+            var confirmation = outputWriter.Add.ConfirmationPrompt(title, author);
             if (CheckForExit(title)) return;
             
             if (string.Equals(confirmation, "yes", StringComparison.OrdinalIgnoreCase))
