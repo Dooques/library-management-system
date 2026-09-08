@@ -1,8 +1,8 @@
 ﻿namespace library_management.Services.IO;
 
-public static class InputReader
+public class InputReader
 {
-    public static string Read()
+    public string Read()
     {
         return Console.ReadLine() ?? throw new Exception("Input was null");
     }
