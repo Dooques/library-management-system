@@ -65,7 +65,15 @@ public class WelcomeMessages
         private readonly  InputReader _inputReader = new();
         public void WelcomeMessage()
         {
-            Console.Clear();
+            try
+            {
+                Console.Clear();
+            }
+            catch (IOException)
+            {
+                
+            }
+
             Console.WriteLine(
                 """
                 Welcome to the Library Management System
