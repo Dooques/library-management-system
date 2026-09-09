@@ -12,13 +12,13 @@ var libraryRepo = new LibraryRepository(dbContext);
 var libraryService = new LibraryService(libraryRepo);
 var outputWriter = new OutputWriter(
     new WelcomeMessages(), 
-    new ErrorResponseMessages(),
-    new DeleteMessages(), 
-    new AddMessages(), 
-    new SearchMessages(), 
     new ViewMessages(),
+    new SearchMessages(), 
+    new AddMessages(), 
+    new DeleteMessages(), 
     new BorrowMessages(),
-    new ReturnMessages()
+    new ReturnMessages(),
+    new ErrorResponseMessages()
 );
 
 var library = new Library(libraryService, outputWriter);
