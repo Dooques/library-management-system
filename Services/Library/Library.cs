@@ -107,7 +107,7 @@ public class Library(
             var title = outputWriter.Add.TitlePrompt();
             if (CheckForExit(title)) return;
             var author = outputWriter.Add.AuthorPrompt();
-            if (CheckForExit(title)) return;
+            if (CheckForExit(author)) return;
 
             try
             {
