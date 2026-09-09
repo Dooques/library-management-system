@@ -2,8 +2,6 @@
 using library_management.Services.IO;
 using library_management.Services.Library;
 using Moq;
-using Moq.Protected;
-using NUnit.Framework.Legacy;
 
 namespace LibraryTesting.Service;
 
