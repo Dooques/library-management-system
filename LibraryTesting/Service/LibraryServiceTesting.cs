@@ -1,6 +1,7 @@
 ﻿using library_management.Model;
 using library_management.Services.Library;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Moq;
 
 namespace LibraryTesting.Service;
@@ -203,5 +204,33 @@ public class LibraryServiceTesting
             x.ReturnBook(availableBook)).Throws(new Exception("Book is still available"));
         
         Assert.Throws<Exception>(() => _libraryService.ReturnBook(availableBook));
+    }
+
+    [
+        TestCase("author Z", "William Gibson"), 
+        TestCase("AUTHOR A", "Frank Herbert"), 
+        TestCase("Author", "Frank Herbert"),
+    ]
+    public void SortBy_ValidAuthor_Success(string sort, string topAuthor)
+    {
+        var books = _libraryService.SortBy(sort,  _booklist);
+        Assert.That(books[0].Author, Is.EqualTo(topAuthor));
+    }
+
+    [
+        TestCase("title Z", "Neuromancer"), 
+        TestCase("title", "Dune"), 
+        TestCase("Title Z", "Neuromancer")
+    ]
+    public void SortBy_ValidTitle_Success(string sort, string topTitle)
+    {
+        var books = _libraryService.SortBy(sort, _booklist);
+        Assert.That(books[0].Title, Is.EqualTo(topTitle));
+    }
+
+    [TestCase(""), TestCase("Elephant")]
+    public void SortBy_InvalidArguments_Failure(string sort)
+    {
+        Assert.Throws<ArgumentNullException>(() => _libraryService.SortBy(sort, _booklist));
     }
 }
