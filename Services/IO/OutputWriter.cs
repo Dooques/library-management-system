@@ -8,6 +8,7 @@ public interface IOutputWriter
     public WelcomeMessages Welcome { get; }
     public ViewMessages View { get; }
     public SearchMessages Search { get; }
+    public AddMessages Add { get; }
     public DeleteMessages Delete { get; }
     public BorrowMessages Borrow { get; }
     public ReturnMessages Return { get; }
@@ -19,13 +20,13 @@ public interface IOutputWriter
 
 public class OutputWriter(
     WelcomeMessages welcome,
-    ErrorResponseMessages errorResponse,
-    DeleteMessages delete,
-    AddMessages add,
-    SearchMessages search,
     ViewMessages view,
+    SearchMessages search,
+    AddMessages add,
+    DeleteMessages delete,
     BorrowMessages borrow,
-    ReturnMessages @return
+    ReturnMessages @return, 
+    ErrorResponseMessages errorResponse
     ): IOutputWriter
 {
     public WelcomeMessages Welcome { get; } = welcome;
@@ -123,10 +124,10 @@ public class ViewMessages
     }
 }
 
-public  class SearchMessages()
+public class SearchMessages()
 {
-    private readonly InputReader _inputReader = new InputReader();
-    public string TypePrompt()
+    private readonly InputReader _inputReader = new();
+    public  string TypePrompt()
     {
         Console.WriteLine(
             """
@@ -137,7 +138,7 @@ public  class SearchMessages()
         return _inputReader.Read();
     }
 
-    public string SearchTerm()
+    public  string SearchTerm()
     {
         Console.WriteLine(
             """
@@ -148,7 +149,7 @@ public  class SearchMessages()
         return _inputReader.Read();
     }
 
-    public void SearchResults(List<Book> books)
+    public  void SearchResults(List<Book> books)
     {
         Console.WriteLine(
             """
@@ -403,7 +404,7 @@ public  class ReturnMessages()
     
 }
 
-public  class ErrorResponseMessages
+public class ErrorResponseMessages
 {
     public  void HandleError(Exception e)
     {
@@ -420,7 +421,7 @@ public  class ErrorResponseMessages
         Console.ReadLine();
     }
 
-    public  void BookNotFound(string title)
+    public void BookNotFound(string title)
     {
         Console.WriteLine(
             $"""
