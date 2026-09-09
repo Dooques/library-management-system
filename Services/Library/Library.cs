@@ -3,7 +3,10 @@ using library_management.Services.IO;
 
 namespace library_management.Services.Library;
 
-public class Library(ILibraryService libraryService, OutputWriter outputWriter)
+public class Library(
+    ILibraryService libraryService, 
+    IOutputWriter outputWriter
+    )
 {
     public void Run()
     {
