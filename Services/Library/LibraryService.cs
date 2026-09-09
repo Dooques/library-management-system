@@ -11,6 +11,7 @@ public interface ILibraryService
     public Book DeleteBook(Book book);
     public Book BorrowBook(Book book);
     public Book ReturnBook(Book book);
+    public List<Book> SortBy(string sortBy, List<Book> books);
 }
 
 public class LibraryService(ILibraryRepository libraryRepository): ILibraryService
@@ -71,5 +72,30 @@ public class LibraryService(ILibraryRepository libraryRepository): ILibraryServi
     {
         var returnedBook = libraryRepository.ReturnBook(book);
         return returnedBook;
+    }
+
+    public List<Book> SortBy(string sortBy, List<Book> books)
+    {
+        ArgumentNullException.ThrowIfNull(books);
+
+        List<Book> sortResult;
+        if (sortBy.Contains("title", StringComparison.OrdinalIgnoreCase))
+        {
+            sortResult = (sortBy.Contains('Z', StringComparison.OrdinalIgnoreCase)
+                ? books.OrderByDescending(a => a.Title)
+                : books.OrderBy(a => a.Title)).ToList();
+        } 
+        else if (sortBy.Contains("author",  StringComparison.OrdinalIgnoreCase))
+        {
+            sortResult = (sortBy.Contains('Z', StringComparison.OrdinalIgnoreCase)
+                ? books.OrderByDescending(a => a.Author)
+                : books.OrderBy(a => a.Author)).ToList();
+        }
+        else
+        {
+            throw new ArgumentNullException(nameof(sortBy));
+        }
+
+        return sortResult;
     }
 }

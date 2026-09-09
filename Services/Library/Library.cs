@@ -85,6 +85,12 @@ public class Library(
         if (foundBooks.Count != 0)
         {
             outputWriter.Search.SearchResults(foundBooks);
+            
+            var sortBy = outputWriter.SortBy();
+            if (string.IsNullOrEmpty(sortBy) || CheckForExit(sortBy)) return;
+            var sortedBooks = libraryService.SortBy(sortBy, foundBooks);
+            
+            outputWriter.Search.SearchResults(sortedBooks);
         } 
         else outputWriter.Search.ResultsEmpty();
         
@@ -94,7 +100,14 @@ public class Library(
     private void ViewAvailableBooks()
     {
         outputWriter.Welcome.WelcomeMessage();
-        outputWriter.View.List(libraryService.FetchAvailableBooks());
+        var availableBooks = libraryService.FetchAvailableBooks();
+        outputWriter.View.List(availableBooks);
+        
+        var sortBy = outputWriter.SortBy();
+        if (string.IsNullOrEmpty(sortBy) || CheckForExit(sortBy)) return;
+        var sortedBooks = libraryService.SortBy(sortBy, availableBooks);
+        outputWriter.View.List(sortedBooks);
+
         outputWriter.ReturnToMenu();
     }
 

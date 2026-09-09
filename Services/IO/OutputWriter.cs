@@ -16,6 +16,7 @@ public interface IOutputWriter
 
     public void NotConfirmed();
     public void  ReturnToMenu();
+    public string SortBy();
 }
 
 public class OutputWriter(
@@ -36,7 +37,8 @@ public class OutputWriter(
     public DeleteMessages Delete { get; }= delete;
     public BorrowMessages Borrow { get; }= borrow;
     public ReturnMessages Return { get; }= @return;
-    public ErrorResponseMessages ErrorResponse { get; }= errorResponse;
+    public ErrorResponseMessages ErrorResponse { get; } = errorResponse;
+    private InputReader InputReader { get; } = new InputReader();
 
     public void NotConfirmed()
     {
@@ -59,6 +61,20 @@ public class OutputWriter(
         );
         Console.ReadLine(); 
     } 
+
+    public string SortBy()
+    {
+        Console.WriteLine(
+            """
+
+            Sorting Options:
+                Title or Author
+                Ascending (from A) Descending (from Z)
+            Respond with your choice (Example: Title A):
+            """
+        );
+        return InputReader.Read();
+    }
 }
 
 public class WelcomeMessages
