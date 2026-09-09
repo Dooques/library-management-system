@@ -8,18 +8,19 @@ public class Library(
     IOutputWriter outputWriter
     )
 {
+    public bool Running = false;
     public void Run()
     {
-        var running = true;
-        while (running)
+        Running = true;
+        while (Running)
         { 
             var userInput = Welcome();
             
             try
             {
-                if (userInput == "exit")
+                if (userInput is "exit" or "quit")
                 {
-                    running = false;
+                    Running = false;
                 }
                 else
                 {
@@ -46,6 +47,10 @@ public class Library(
                     else if (userInput.Contains("return", StringComparison.CurrentCultureIgnoreCase))
                     {
                         ReturnBook();
+                    }
+                    else
+                    {
+                        throw new Exception("Command not recognised");
                     }
                 }
             } 
@@ -104,7 +109,6 @@ public class Library(
             var author = outputWriter.Add.AuthorPrompt();
             if (CheckForExit(title)) return;
 
-            
             try
             {
                 var book = libraryService.FetchBook(title);
